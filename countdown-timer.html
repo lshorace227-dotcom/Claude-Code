@@ -160,35 +160,26 @@
 
     #btnReset:hover { background: #2a4365; }
 
-    /* --- Quick presets --- */
     .presets {
       display: flex;
       gap: 10px;
     }
 
     .preset {
-      padding: 7px 16px;
-      border: 2px solid #2d4a7a;
-      border-radius: 20px;
-      background: transparent;
+      padding: 8px 20px;
+      background: #0f3460;
       color: #90cdf4;
-      font-size: 0.85rem;
+      border: 2px solid #2d4a7a;
+      border-radius: 10px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      transition: background 0.2s, border-color 0.2s, transform 0.1s;
+      letter-spacing: 0.04em;
     }
 
-    .preset:hover {
-      background: #2d4a7a;
-      border-color: #63b3ed;
-    }
-
-    .preset.active {
-      background: #2b6cb0;
-      border-color: #63b3ed;
-      color: #fff;
-    }
+    .preset:hover { background: #1a4a80; border-color: #63b3ed; }
+    .preset:active { transform: scale(0.96); }
 
     .status {
       font-size: 0.85rem;
@@ -325,20 +316,19 @@
 
   let femaleVoice = null;
 
-  function loadVoice() {
+  function loadFemaleVoice() {
     const voices = speechSynthesis.getVoices();
-    // Prefer Samantha (macOS) or Zira (Windows), then any en-US female
-    const preferred = ['Samantha', 'Microsoft Zira', 'Google US English'];
-    for (const name of preferred) {
-      const v = voices.find(v => v.name.includes(name) && v.lang.startsWith('en-US'));
-      if (v) { femaleVoice = v; return; }
-    }
-    // Fallback: first en-US voice
-    femaleVoice = voices.find(v => v.lang === 'en-US') || null;
+    // Prefer Samantha (macOS) or Zira (Windows), both clear female en-US voices
+    femaleVoice =
+      voices.find(v => v.name === 'Samantha') ||
+      voices.find(v => v.name.includes('Zira')) ||
+      voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('female')) ||
+      voices.find(v => v.lang === 'en-US') ||
+      null;
   }
 
-  speechSynthesis.addEventListener('voiceschanged', loadVoice);
-  loadVoice();
+  speechSynthesis.onvoiceschanged = loadFemaleVoice;
+  loadFemaleVoice();
 
   function speak(text) {
     const utt = new SpeechSynthesisUtterance(text);
@@ -426,45 +416,38 @@
     ringProgress.style.strokeDashoffset = 0;
   });
 
-  // Preset buttons
-  const presetBtns = document.querySelectorAll('.preset');
-
-  function applyPreset(sec) {
-    if (running) return;
-    clearInterval(intervalId);
-    running = false;
-    remaining = 0;
-    totalSeconds = 0;
-    btnStart.textContent = '开始';
-    statusEl.textContent = '';
-    setInputsDisabled(false);
-    ringProgress.classList.remove('warning');
-    timeDisplay.classList.remove('warning');
-    ringProgress.style.strokeDashoffset = 0;
-
-    const h = Math.floor(sec / 3600);
-    const m = Math.floor((sec % 3600) / 60);
-    const s = sec % 60;
-    inputH.value = h;
-    inputM.value = m;
-    inputS.value = s;
-    timeDisplay.textContent = formatTime(sec);
-
-    presetBtns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.sec) === sec));
-  }
-
-  presetBtns.forEach(btn => {
-    btn.addEventListener('click', () => applyPreset(parseInt(btn.dataset.sec)));
-  });
-
   // Live preview while editing inputs
   [inputH, inputM, inputS].forEach(el => {
     el.addEventListener('input', () => {
       if (!running && remaining === 0) {
         timeDisplay.textContent = formatTime(getInputSeconds());
         ringProgress.style.strokeDashoffset = 0;
-        presetBtns.forEach(b => b.classList.remove('active'));
       }
+    });
+  });
+
+  function startImmediately(seconds) {
+    clearInterval(intervalId);
+    running = false;
+    remaining = 0;
+    totalSeconds = seconds;
+    remaining = seconds;
+    // Update inputs to reflect preset
+    inputH.value = Math.floor(seconds / 3600);
+    inputM.value = Math.floor((seconds % 3600) / 60);
+    inputS.value = seconds % 60;
+    updateDisplay();
+    // Start right away
+    running = true;
+    btnStart.textContent = '暂停';
+    statusEl.textContent = '计时中…';
+    setInputsDisabled(true);
+    intervalId = setInterval(tick, 1000);
+  }
+
+  document.querySelectorAll('.preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      startImmediately(parseInt(btn.dataset.sec));
     });
   });
 
