@@ -482,68 +482,45 @@
     updateRing(remaining, totalSeconds);
   }
 
-  const countWords = ['','one','two','three','four','five','six','seven','eight','nine','ten'];
+  // Alarm beep: two sharp high-pitched pulses — urgency escalates as remaining decreases
+  function playAlarmBeep(remaining) {
+    const ctx = getAudioCtx();
+    const t = ctx.currentTime;
 
-  let femaleVoice = null;
-  let speechChainActive = false;
+    // Frequency rises as countdown approaches zero (1200 Hz → 2000 Hz)
+    const freq = 1200 + (10 - remaining) * 80;
 
-  function loadFemaleVoice() {
-    const voices = speechSynthesis.getVoices();
-    femaleVoice =
-      voices.find(v => v.name === 'Samantha') ||
-      voices.find(v => v.name.includes('Zira')) ||
-      voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('female')) ||
-      voices.find(v => v.lang === 'en-US') ||
-      null;
-  }
+    // Number of pulses per beat also increases: 1 pulse until sec 5, then 2
+    const pulses = remaining <= 5 ? 2 : 1;
+    const pulseGap = 0.08;
 
-  speechSynthesis.onvoiceschanged = loadFemaleVoice;
-  loadFemaleVoice();
+    for (let i = 0; i < pulses; i++) {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      // Add a slight square-wave edge for alarm harshness
+      const osc2  = ctx.createOscillator();
+      const gain2 = ctx.createGain();
 
-  function makeUtt(text) {
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'en-US';
-    utt.rate = 0.95;
-    utt.pitch = 1.1;
-    if (femaleVoice) utt.voice = femaleVoice;
-    return utt;
-  }
+      osc.connect(gain);   gain.connect(ctx.destination);
+      osc2.connect(gain2); gain2.connect(ctx.destination);
 
-  // iOS blocks speechSynthesis inside setInterval. Instead, we chain utterances
-  // via onend, each one scheduled 1 second apart using the speech duration itself.
-  // This runs entirely outside setInterval and works reliably on iOS Safari.
-  function startSpeechChain(fromCount) {
-    speechSynthesis.cancel();
-    speechChainActive = true;
+      const start = t + i * (pulseGap + 0.05);
+      const dur   = 0.07;
 
-    function speakNext(count) {
-      if (!speechChainActive || count < 0) return;
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.35, start + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      osc.start(start); osc.stop(start + dur);
 
-      const text = count === 0 ? 'Time is up!' : countWords[count];
-      const utt = makeUtt(text);
-
-      utt.onend = () => {
-        if (!speechChainActive) return;
-        if (count === 0) return;
-        // Wait out the remainder of this second before speaking next number
-        const elapsed = performance.now() - startTime;
-        const delay = Math.max(0, 1000 - elapsed);
-        setTimeout(() => {
-          startTime = performance.now();
-          speakNext(count - 1);
-        }, delay);
-      };
-
-      var startTime = performance.now();
-      speechSynthesis.speak(utt);
+      osc2.type = 'square';
+      osc2.frequency.value = freq * 2;
+      gain2.gain.setValueAtTime(0, start);
+      gain2.gain.linearRampToValueAtTime(0.06, start + 0.005);
+      gain2.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      osc2.start(start); osc2.stop(start + dur);
     }
-
-    speakNext(fromCount);
-  }
-
-  function stopSpeechChain() {
-    speechChainActive = false;
-    speechSynthesis.cancel();
   }
 
   function tick() {
@@ -557,10 +534,9 @@
       updateDisplay();
       return;
     }
-    if (remaining === 10) {
-      // Hand off to speech chain; stop tick sound for last 10s
-      startSpeechChain(10);
-    } else if (remaining > 10) {
+    if (remaining <= 10) {
+      playAlarmBeep(remaining);
+    } else {
       playTick();
     }
     remaining--;
@@ -585,7 +561,7 @@
     if (running) {
       // Pause
       clearInterval(intervalId);
-      stopSpeechChain();
+
       running = false;
       btnStart.textContent = 'Resume';
       statusEl.textContent = 'Paused';
