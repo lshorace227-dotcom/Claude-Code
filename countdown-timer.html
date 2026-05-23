@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>倒数计时器</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a2e;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: #eee;
+    }
+
+    .card {
+      background: #16213e;
+      border-radius: 24px;
+      padding: 40px 48px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      color: #a0aec0;
+      text-transform: uppercase;
+    }
+
+    /* --- Input section --- */
+    .inputs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .input-group label {
+      font-size: 0.7rem;
+      color: #718096;
+      letter-spacing: 0.1em;
+    }
+
+    .input-group input {
+      width: 64px;
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 600;
+      background: #0f3460;
+      border: 2px solid #2d4a7a;
+      border-radius: 10px;
+      color: #e2e8f0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: #63b3ed;
+    }
+
+    .sep {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4a5568;
+      margin-bottom: 18px;
+    }
+
+    /* --- Ring --- */
+    .ring-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+    }
+
+    svg.ring {
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: #2d4a7a;
+      stroke-width: 12;
+    }
+
+    .ring-progress {
+      fill: none;
+      stroke: #63b3ed;
+      stroke-width: 12;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.8s linear, stroke 0.3s;
+    }
+
+    .ring-progress.warning {
+      stroke: #fc8181;
+    }
+
+    .time-display {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #e2e8f0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .time-display.warning {
+      color: #fc8181;
+    }
+
+    /* --- Buttons --- */
+    .controls {
+      display: flex;
+      gap: 16px;
+    }
+
+    button {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    button:active { transform: scale(0.96); }
+
+    #btnStart {
+      background: #3182ce;
+      color: #fff;
+      min-width: 100px;
+    }
+
+    #btnStart:hover { background: #2b6cb0; }
+
+    #btnReset {
+      background: #2d4a7a;
+      color: #a0aec0;
+    }
+
+    #btnReset:hover { background: #2a4365; }
+
+    .status {
+      font-size: 0.85rem;
+      color: #718096;
+      min-height: 1.2em;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>倒数计时器</h1>
+
+  <div class="inputs">
+    <div class="input-group">
+      <label>时</label>
+      <input type="number" id="inputH" min="0" max="99" value="0">
+    </div>
+    <span class="sep">:</span>
+    <div class="input-group">
+      <label>分</label>
+      <input type="number" id="inputM" min="0" max="59" value="5">
+    </div>
+    <span class="sep">:</span>
+    <div class="input-group">
+      <label>秒</label>
+      <input type="number" id="inputS" min="0" max="59" value="0">
+    </div>
+  </div>
+
+  <div class="ring-wrap">
+    <svg class="ring" width="220" height="220" viewBox="0 0 220 220">
+      <circle class="ring-bg" cx="110" cy="110" r="98"/>
+      <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="98"/>
+    </svg>
+    <div class="time-display" id="timeDisplay">05:00</div>
+  </div>
+
+  <div class="controls">
+    <button id="btnStart">开始</button>
+    <button id="btnReset">重置</button>
+  </div>
+
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+  const CIRCUMFERENCE = 2 * Math.PI * 98; // ~615.75
+
+  const ringProgress = document.getElementById('ringProgress');
+  const timeDisplay  = document.getElementById('timeDisplay');
+  const btnStart     = document.getElementById('btnStart');
+  const btnReset     = document.getElementById('btnReset');
+  const statusEl     = document.getElementById('status');
+  const inputH       = document.getElementById('inputH');
+  const inputM       = document.getElementById('inputM');
+  const inputS       = document.getElementById('inputS');
+
+  ringProgress.style.strokeDasharray  = CIRCUMFERENCE;
+  ringProgress.style.strokeDashoffset = 0;
+
+  let totalSeconds  = 0;
+  let remaining     = 0;
+  let intervalId    = null;
+  let running       = false;
+  let audioCtx      = null;
+
+  function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+
+  function playTick() {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.08);
+  }
+
+  function playEnd() {
+    const ctx = getAudioCtx();
+    [523, 659, 784, 1047].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      const t = ctx.currentTime + i * 0.18;
+      gain.gain.setValueAtTime(0.18, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+      osc.start(t);
+      osc.stop(t + 0.4);
+    });
+  }
+
+  function formatTime(sec) {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    if (h > 0) {
+      return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+
+  function updateRing(rem, total) {
+    const fraction = total > 0 ? rem / total : 0;
+    ringProgress.style.strokeDashoffset = CIRCUMFERENCE * (1 - fraction);
+    const warn = rem <= 10 && rem > 0;
+    ringProgress.classList.toggle('warning', warn);
+    timeDisplay.classList.toggle('warning', warn);
+  }
+
+  function updateDisplay() {
+    timeDisplay.textContent = formatTime(remaining);
+    updateRing(remaining, totalSeconds);
+  }
+
+  function tick() {
+    if (remaining <= 0) {
+      clearInterval(intervalId);
+      running = false;
+      btnStart.textContent = '开始';
+      setInputsDisabled(false);
+      statusEl.textContent = '时间到！';
+      playEnd();
+      updateDisplay();
+      return;
+    }
+    playTick();
+    remaining--;
+    updateDisplay();
+  }
+
+  function setInputsDisabled(disabled) {
+    inputH.disabled = disabled;
+    inputM.disabled = disabled;
+    inputS.disabled = disabled;
+  }
+
+  function getInputSeconds() {
+    const h = Math.max(0, parseInt(inputH.value) || 0);
+    const m = Math.max(0, Math.min(59, parseInt(inputM.value) || 0));
+    const s = Math.max(0, Math.min(59, parseInt(inputS.value) || 0));
+    return h * 3600 + m * 60 + s;
+  }
+
+  btnStart.addEventListener('click', () => {
+    if (running) {
+      // Pause
+      clearInterval(intervalId);
+      running = false;
+      btnStart.textContent = '继续';
+      statusEl.textContent = '已暂停';
+      setInputsDisabled(false);
+    } else {
+      if (!running && remaining === 0) {
+        // Fresh start
+        totalSeconds = getInputSeconds();
+        if (totalSeconds <= 0) {
+          statusEl.textContent = '请先设定时间';
+          return;
+        }
+        remaining = totalSeconds;
+        updateDisplay();
+      }
+      // Start / Resume
+      running = true;
+      btnStart.textContent = '暂停';
+      statusEl.textContent = '计时中…';
+      setInputsDisabled(true);
+      intervalId = setInterval(tick, 1000);
+    }
+  });
+
+  btnReset.addEventListener('click', () => {
+    clearInterval(intervalId);
+    running = false;
+    remaining = 0;
+    totalSeconds = 0;
+    btnStart.textContent = '开始';
+    statusEl.textContent = '';
+    setInputsDisabled(false);
+    timeDisplay.textContent = formatTime(getInputSeconds());
+    ringProgress.classList.remove('warning');
+    timeDisplay.classList.remove('warning');
+    ringProgress.style.strokeDashoffset = 0;
+  });
+
+  // Live preview while editing inputs
+  [inputH, inputM, inputS].forEach(el => {
+    el.addEventListener('input', () => {
+      if (!running && remaining === 0) {
+        timeDisplay.textContent = formatTime(getInputSeconds());
+        ringProgress.style.strokeDashoffset = 0;
+      }
+    });
+  });
+
+  // Init display
+  timeDisplay.textContent = formatTime(getInputSeconds());
+</script>
+</body>
+</html>
