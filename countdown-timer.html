@@ -160,6 +160,36 @@
 
     #btnReset:hover { background: #2a4365; }
 
+    /* --- Quick presets --- */
+    .presets {
+      display: flex;
+      gap: 10px;
+    }
+
+    .preset {
+      padding: 7px 16px;
+      border: 2px solid #2d4a7a;
+      border-radius: 20px;
+      background: transparent;
+      color: #90cdf4;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    }
+
+    .preset:hover {
+      background: #2d4a7a;
+      border-color: #63b3ed;
+    }
+
+    .preset.active {
+      background: #2b6cb0;
+      border-color: #63b3ed;
+      color: #fff;
+    }
+
     .status {
       font-size: 0.85rem;
       color: #718096;
@@ -195,6 +225,12 @@
       <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="98"/>
     </svg>
     <div class="time-display" id="timeDisplay">05:00</div>
+  </div>
+
+  <div class="presets">
+    <button class="preset" data-sec="20">20 秒</button>
+    <button class="preset" data-sec="30">30 秒</button>
+    <button class="preset" data-sec="60">1 分钟</button>
   </div>
 
   <div class="controls">
@@ -390,12 +426,44 @@
     ringProgress.style.strokeDashoffset = 0;
   });
 
+  // Preset buttons
+  const presetBtns = document.querySelectorAll('.preset');
+
+  function applyPreset(sec) {
+    if (running) return;
+    clearInterval(intervalId);
+    running = false;
+    remaining = 0;
+    totalSeconds = 0;
+    btnStart.textContent = '开始';
+    statusEl.textContent = '';
+    setInputsDisabled(false);
+    ringProgress.classList.remove('warning');
+    timeDisplay.classList.remove('warning');
+    ringProgress.style.strokeDashoffset = 0;
+
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    inputH.value = h;
+    inputM.value = m;
+    inputS.value = s;
+    timeDisplay.textContent = formatTime(sec);
+
+    presetBtns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.sec) === sec));
+  }
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => applyPreset(parseInt(btn.dataset.sec)));
+  });
+
   // Live preview while editing inputs
   [inputH, inputM, inputS].forEach(el => {
     el.addEventListener('input', () => {
       if (!running && remaining === 0) {
         timeDisplay.textContent = formatTime(getInputSeconds());
         ringProgress.style.strokeDashoffset = 0;
+        presetBtns.forEach(b => b.classList.remove('active'));
       }
     });
   });
