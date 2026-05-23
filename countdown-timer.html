@@ -4,7 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>倒数计时器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Josefin+Sans:wght@100;300;400&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --gold:       #c9a84c;
+      --gold-dim:   #7a5e28;
+      --gold-glow:  rgba(201,168,76,0.25);
+      --cream:      #f0e6ce;
+      --ink:        #0a0804;
+      --surface:    #111009;
+      --surface2:   #1a1710;
+      --warn:       #c0392b;
+      --warn-glow:  rgba(192,57,43,0.3);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -12,228 +27,368 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #1a1a2e;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      color: #eee;
+      background: var(--ink);
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 0%, #1e1a0e 0%, transparent 70%),
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.03) 39px, rgba(201,168,76,0.03) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.03) 39px, rgba(201,168,76,0.03) 40px);
+      font-family: 'Josefin Sans', sans-serif;
+      color: var(--cream);
     }
 
     .card {
-      background: #16213e;
-      border-radius: 24px;
-      padding: 40px 48px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
+      padding: 48px 52px 40px;
+      background: var(--surface);
+      border: 1px solid var(--gold-dim);
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,0.08),
+        0 0 60px rgba(0,0,0,0.8),
+        inset 0 1px 0 rgba(201,168,76,0.15);
+      position: relative;
     }
+
+    /* Corner ornaments */
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--gold-dim);
+      border-style: solid;
+    }
+    .card::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+    .card::after  { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+    /* extra corners via pseudo on inner wrapper */
+    .inner::before, .inner::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--gold-dim);
+      border-style: solid;
+    }
+    .inner::before { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+    .inner::after  { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+    .inner { position: absolute; inset: 0; pointer-events: none; }
 
     h1 {
-      font-size: 1.2rem;
-      letter-spacing: 0.15em;
-      color: #a0aec0;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 100;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
       text-transform: uppercase;
+      opacity: 0.8;
     }
 
-    /* --- Input section --- */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      opacity: 0.6;
+    }
+
+    /* --- Inputs --- */
     .inputs {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      align-items: flex-end;
+      gap: 6px;
     }
 
     .input-group {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
 
     .input-group label {
-      font-size: 0.7rem;
-      color: #718096;
-      letter-spacing: 0.1em;
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.6;
     }
 
     .input-group input {
-      width: 64px;
-      padding: 8px 4px;
+      width: 62px;
+      padding: 6px 4px;
       text-align: center;
-      font-size: 1.4rem;
-      font-weight: 600;
-      background: #0f3460;
-      border: 2px solid #2d4a7a;
-      border-radius: 10px;
-      color: #e2e8f0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      background: var(--surface2);
+      border: 1px solid var(--gold-dim);
+      color: var(--cream);
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      -moz-appearance: textfield;
     }
+    .input-group input::-webkit-inner-spin-button,
+    .input-group input::-webkit-outer-spin-button { -webkit-appearance: none; }
 
     .input-group input:focus {
-      border-color: #63b3ed;
+      border-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold-glow);
     }
 
     .sep {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #4a5568;
-      margin-bottom: 18px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gold-dim);
+      margin-bottom: 6px;
+      opacity: 0.7;
     }
 
     /* --- Ring --- */
     .ring-wrap {
       position: relative;
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: 240px;
     }
 
     svg.ring {
       transform: rotate(-90deg);
+      filter: drop-shadow(0 0 8px var(--gold-glow));
     }
 
     .ring-bg {
       fill: none;
-      stroke: #2d4a7a;
-      stroke-width: 12;
+      stroke: #1e1c14;
+      stroke-width: 2;
+    }
+
+    /* Tick marks */
+    .ring-ticks {
+      fill: none;
+      stroke: var(--gold-dim);
+      stroke-width: 1;
+      opacity: 0.4;
     }
 
     .ring-progress {
       fill: none;
-      stroke: #63b3ed;
-      stroke-width: 12;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 0.8s linear, stroke 0.3s;
+      stroke: url(#goldGrad);
+      stroke-width: 3;
+      stroke-linecap: butt;
+      transition: stroke-dashoffset 0.85s cubic-bezier(0.4,0,0.2,1), stroke 0.4s;
     }
 
     .ring-progress.warning {
-      stroke: #fc8181;
+      stroke: var(--warn);
+      filter: drop-shadow(0 0 6px var(--warn-glow));
+    }
+
+    .ring-inner {
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #1e1c14, var(--surface));
+      border: 1px solid rgba(201,168,76,0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
 
     .time-display {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.6rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #e2e8f0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--cream);
       font-variant-numeric: tabular-nums;
+      line-height: 1;
+      transition: color 0.3s;
     }
 
     .time-display.warning {
-      color: #fc8181;
+      color: #e74c3c;
+      text-shadow: 0 0 20px var(--warn-glow);
     }
 
-    /* --- Buttons --- */
-    .controls {
-      display: flex;
-      gap: 16px;
+    .ring-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      opacity: 0.5;
+      text-transform: uppercase;
     }
 
-    button {
-      padding: 12px 28px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.1s, opacity 0.2s;
-      letter-spacing: 0.05em;
-    }
-
-    button:active { transform: scale(0.96); }
-
-    #btnStart {
-      background: #3182ce;
-      color: #fff;
-      min-width: 100px;
-    }
-
-    #btnStart:hover { background: #2b6cb0; }
-
-    #btnReset {
-      background: #2d4a7a;
-      color: #a0aec0;
-    }
-
-    #btnReset:hover { background: #2a4365; }
-
+    /* --- Presets --- */
     .presets {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     .preset {
-      padding: 8px 20px;
-      background: #0f3460;
-      color: #90cdf4;
-      border: 2px solid #2d4a7a;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 6px 16px;
+      background: transparent;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, transform 0.1s;
-      letter-spacing: 0.04em;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.1s;
     }
 
-    .preset:hover { background: #1a4a80; border-color: #63b3ed; }
-    .preset:active { transform: scale(0.96); }
+    .preset:hover {
+      background: rgba(201,168,76,0.08);
+      border-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+    .preset:active { transform: scale(0.97); }
 
+    /* --- Controls --- */
+    .controls {
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
+    }
+    button:active { transform: scale(0.97); }
+
+    #btnStart {
+      padding: 10px 36px;
+      font-size: 0.65rem;
+      background: var(--gold);
+      color: var(--ink);
+      box-shadow: 0 0 20px var(--gold-glow);
+      min-width: 110px;
+    }
+    #btnStart:hover {
+      background: #dbb95a;
+      box-shadow: 0 0 32px rgba(201,168,76,0.5);
+    }
+
+    #btnReset {
+      padding: 10px 28px;
+      font-size: 0.65rem;
+      background: transparent;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-dim);
+    }
+    #btnReset:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* --- Status --- */
     .status {
-      font-size: 0.85rem;
-      color: #718096;
-      min-height: 1.2em;
-      letter-spacing: 0.05em;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      min-height: 1em;
+      text-transform: uppercase;
+      opacity: 0.6;
     }
+
+    /* Fade-in on load */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card { animation: fadeUp 0.7s ease both; }
   </style>
 </head>
 <body>
 <div class="card">
-  <h1>倒数计时器</h1>
+  <div class="inner"></div>
+
+  <h1>Countdown</h1>
+  <div class="divider"></div>
 
   <div class="inputs">
     <div class="input-group">
-      <label>时</label>
       <input type="number" id="inputH" min="0" max="99" value="0">
+      <label>HR</label>
     </div>
-    <span class="sep">:</span>
+    <span class="sep">·</span>
     <div class="input-group">
-      <label>分</label>
       <input type="number" id="inputM" min="0" max="59" value="5">
+      <label>MIN</label>
     </div>
-    <span class="sep">:</span>
+    <span class="sep">·</span>
     <div class="input-group">
-      <label>秒</label>
       <input type="number" id="inputS" min="0" max="59" value="0">
+      <label>SEC</label>
     </div>
   </div>
 
   <div class="ring-wrap">
-    <svg class="ring" width="220" height="220" viewBox="0 0 220 220">
-      <circle class="ring-bg" cx="110" cy="110" r="98"/>
-      <circle class="ring-progress" id="ringProgress" cx="110" cy="110" r="98"/>
+    <svg class="ring" width="240" height="240" viewBox="0 0 240 240">
+      <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#c9a84c"/>
+          <stop offset="50%"  stop-color="#f0d080"/>
+          <stop offset="100%" stop-color="#c9a84c"/>
+        </linearGradient>
+      </defs>
+      <!-- tick marks at every 6° (60 ticks) -->
+      <g class="ring-ticks" transform="translate(120,120)">
+        <!-- generated via JS below -->
+      </g>
+      <circle class="ring-bg" cx="120" cy="120" r="108"/>
+      <circle class="ring-progress" id="ringProgress" cx="120" cy="120" r="108"/>
     </svg>
-    <div class="time-display" id="timeDisplay">05:00</div>
+    <div class="ring-inner">
+      <div class="time-display" id="timeDisplay">05:00</div>
+      <div class="ring-label">remaining</div>
+    </div>
   </div>
 
   <div class="presets">
-    <button class="preset" data-sec="20">20 秒</button>
-    <button class="preset" data-sec="30">30 秒</button>
-    <button class="preset" data-sec="60">1 分钟</button>
+    <button class="preset" data-sec="20">20s</button>
+    <button class="preset" data-sec="30">30s</button>
+    <button class="preset" data-sec="60">1 min</button>
   </div>
 
   <div class="controls">
-    <button id="btnStart">开始</button>
-    <button id="btnReset">重置</button>
+    <button id="btnStart">Start</button>
+    <button id="btnReset">Reset</button>
   </div>
 
+  <div class="divider"></div>
   <div class="status" id="status"></div>
 </div>
 
 <script>
-  const CIRCUMFERENCE = 2 * Math.PI * 98; // ~615.75
+  const CIRCUMFERENCE = 2 * Math.PI * 108;
+
+  // Draw 60 tick marks on the ring
+  (function drawTicks() {
+    const g = document.querySelector('.ring-ticks');
+    for (let i = 0; i < 60; i++) {
+      const angle = (i / 60) * 2 * Math.PI;
+      const isMajor = i % 5 === 0;
+      const r1 = isMajor ? 100 : 103;
+      const r2 = 108;
+      const x1 = Math.cos(angle) * r1, y1 = Math.sin(angle) * r1;
+      const x2 = Math.cos(angle) * r2, y2 = Math.sin(angle) * r2;
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+      line.setAttribute('stroke-width', isMajor ? '1.5' : '0.8');
+      if (isMajor) line.setAttribute('opacity', '0.7');
+      g.appendChild(line);
+    }
+  })();
 
   const ringProgress = document.getElementById('ringProgress');
   const timeDisplay  = document.getElementById('timeDisplay');
@@ -395,9 +550,9 @@
     if (remaining <= 0) {
       clearInterval(intervalId);
       running = false;
-      btnStart.textContent = '开始';
+      btnStart.textContent = 'Start';
       setInputsDisabled(false);
-      statusEl.textContent = '时间到！';
+      statusEl.textContent = 'Time\'s up';
       playEnd();
       updateDisplay();
       return;
@@ -432,15 +587,15 @@
       clearInterval(intervalId);
       stopSpeechChain();
       running = false;
-      btnStart.textContent = '继续';
-      statusEl.textContent = '已暂停';
+      btnStart.textContent = 'Resume';
+      statusEl.textContent = 'Paused';
       setInputsDisabled(false);
     } else {
       if (!running && remaining === 0) {
         // Fresh start
         totalSeconds = getInputSeconds();
         if (totalSeconds <= 0) {
-          statusEl.textContent = '请先设定时间';
+          statusEl.textContent = 'Set a time first';
           return;
         }
         remaining = totalSeconds;
@@ -448,8 +603,8 @@
       }
       // Start / Resume
       running = true;
-      btnStart.textContent = '暂停';
-      statusEl.textContent = '计时中…';
+      btnStart.textContent = 'Pause';
+      statusEl.textContent = 'Running';
       setInputsDisabled(true);
       intervalId = setInterval(tick, 1000);
     }
@@ -462,7 +617,7 @@
     running = false;
     remaining = 0;
     totalSeconds = 0;
-    btnStart.textContent = '开始';
+    btnStart.textContent = 'Start';
     statusEl.textContent = '';
     setInputsDisabled(false);
     timeDisplay.textContent = formatTime(getInputSeconds());
@@ -495,8 +650,8 @@
     updateDisplay();
     // Start right away
     running = true;
-    btnStart.textContent = '暂停';
-    statusEl.textContent = '计时中…';
+    btnStart.textContent = 'Pause';
+    statusEl.textContent = 'Running';
     setInputsDisabled(true);
     intervalId = setInterval(tick, 1000);
   }
