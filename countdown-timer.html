@@ -252,10 +252,25 @@
   let intervalId    = null;
   let running       = false;
   let audioCtx      = null;
+  let audioUnlocked = false;
 
   function getAudioCtx() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     return audioCtx;
+  }
+
+  // iOS requires AudioContext to be resumed inside a user gesture
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    // Play a silent buffer to fully unlock on iOS
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    audioUnlocked = true;
   }
 
   function playTick() {
@@ -318,7 +333,6 @@
 
   function loadFemaleVoice() {
     const voices = speechSynthesis.getVoices();
-    // Prefer Samantha (macOS) or Zira (Windows), both clear female en-US voices
     femaleVoice =
       voices.find(v => v.name === 'Samantha') ||
       voices.find(v => v.name.includes('Zira')) ||
@@ -331,13 +345,18 @@
   loadFemaleVoice();
 
   function speak(text) {
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'en-US';
-    utt.rate = 0.95;
-    utt.pitch = 1.1;
-    if (femaleVoice) utt.voice = femaleVoice;
+    // iOS Safari cancels speechSynthesis called from setInterval unless we
+    // re-trigger it with a tiny delay inside the same event loop tick budget.
+    // Using setTimeout(0) keeps it alive on iOS.
     speechSynthesis.cancel();
-    speechSynthesis.speak(utt);
+    setTimeout(() => {
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang = 'en-US';
+      utt.rate = 0.95;
+      utt.pitch = 1.1;
+      if (femaleVoice) utt.voice = femaleVoice;
+      speechSynthesis.speak(utt);
+    }, 0);
   }
 
   function tick() {
@@ -375,6 +394,7 @@
   }
 
   btnStart.addEventListener('click', () => {
+    unlockAudio();
     if (running) {
       // Pause
       clearInterval(intervalId);
@@ -403,6 +423,7 @@
   });
 
   btnReset.addEventListener('click', () => {
+    unlockAudio();
     clearInterval(intervalId);
     running = false;
     remaining = 0;
@@ -447,6 +468,7 @@
 
   document.querySelectorAll('.preset').forEach(btn => {
     btn.addEventListener('click', () => {
+      unlockAudio();
       startImmediately(parseInt(btn.dataset.sec));
     });
   });
