@@ -330,6 +330,7 @@
   const countWords = ['','one','two','three','four','five','six','seven','eight','nine','ten'];
 
   let femaleVoice = null;
+  let speechChainActive = false;
 
   function loadFemaleVoice() {
     const voices = speechSynthesis.getVoices();
@@ -344,19 +345,50 @@
   speechSynthesis.onvoiceschanged = loadFemaleVoice;
   loadFemaleVoice();
 
-  function speak(text) {
-    // iOS Safari cancels speechSynthesis called from setInterval unless we
-    // re-trigger it with a tiny delay inside the same event loop tick budget.
-    // Using setTimeout(0) keeps it alive on iOS.
+  function makeUtt(text) {
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'en-US';
+    utt.rate = 0.95;
+    utt.pitch = 1.1;
+    if (femaleVoice) utt.voice = femaleVoice;
+    return utt;
+  }
+
+  // iOS blocks speechSynthesis inside setInterval. Instead, we chain utterances
+  // via onend, each one scheduled 1 second apart using the speech duration itself.
+  // This runs entirely outside setInterval and works reliably on iOS Safari.
+  function startSpeechChain(fromCount) {
     speechSynthesis.cancel();
-    setTimeout(() => {
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = 'en-US';
-      utt.rate = 0.95;
-      utt.pitch = 1.1;
-      if (femaleVoice) utt.voice = femaleVoice;
+    speechChainActive = true;
+
+    function speakNext(count) {
+      if (!speechChainActive || count < 0) return;
+
+      const text = count === 0 ? 'Time is up!' : countWords[count];
+      const utt = makeUtt(text);
+
+      utt.onend = () => {
+        if (!speechChainActive) return;
+        if (count === 0) return;
+        // Wait out the remainder of this second before speaking next number
+        const elapsed = performance.now() - startTime;
+        const delay = Math.max(0, 1000 - elapsed);
+        setTimeout(() => {
+          startTime = performance.now();
+          speakNext(count - 1);
+        }, delay);
+      };
+
+      var startTime = performance.now();
       speechSynthesis.speak(utt);
-    }, 0);
+    }
+
+    speakNext(fromCount);
+  }
+
+  function stopSpeechChain() {
+    speechChainActive = false;
+    speechSynthesis.cancel();
   }
 
   function tick() {
@@ -367,13 +399,13 @@
       setInputsDisabled(false);
       statusEl.textContent = '时间到！';
       playEnd();
-      speak('Time is up!');
       updateDisplay();
       return;
     }
-    if (remaining <= 10) {
-      speak(countWords[remaining]);
-    } else {
+    if (remaining === 10) {
+      // Hand off to speech chain; stop tick sound for last 10s
+      startSpeechChain(10);
+    } else if (remaining > 10) {
       playTick();
     }
     remaining--;
@@ -398,6 +430,7 @@
     if (running) {
       // Pause
       clearInterval(intervalId);
+      stopSpeechChain();
       running = false;
       btnStart.textContent = '继续';
       statusEl.textContent = '已暂停';
@@ -424,6 +457,7 @@
 
   btnReset.addEventListener('click', () => {
     unlockAudio();
+    stopSpeechChain();
     clearInterval(intervalId);
     running = false;
     remaining = 0;
@@ -448,6 +482,7 @@
   });
 
   function startImmediately(seconds) {
+    stopSpeechChain();
     clearInterval(intervalId);
     running = false;
     remaining = 0;
