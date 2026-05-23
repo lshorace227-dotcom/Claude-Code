@@ -287,10 +287,29 @@
 
   const countWords = ['','one','two','three','four','five','six','seven','eight','nine','ten'];
 
+  let femaleVoice = null;
+
+  function loadVoice() {
+    const voices = speechSynthesis.getVoices();
+    // Prefer Samantha (macOS) or Zira (Windows), then any en-US female
+    const preferred = ['Samantha', 'Microsoft Zira', 'Google US English'];
+    for (const name of preferred) {
+      const v = voices.find(v => v.name.includes(name) && v.lang.startsWith('en-US'));
+      if (v) { femaleVoice = v; return; }
+    }
+    // Fallback: first en-US voice
+    femaleVoice = voices.find(v => v.lang === 'en-US') || null;
+  }
+
+  speechSynthesis.addEventListener('voiceschanged', loadVoice);
+  loadVoice();
+
   function speak(text) {
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = 'en-US';
-    utt.rate = 1.1;
+    utt.rate = 0.95;
+    utt.pitch = 1.1;
+    if (femaleVoice) utt.voice = femaleVoice;
     speechSynthesis.cancel();
     speechSynthesis.speak(utt);
   }
