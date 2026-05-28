@@ -1,0 +1,45 @@
+PDD Holdings — EQUITY RESEARCH INITIATION COVERAGE
+Task 4: Chart Index
+Generated: 2026-05-27 07:56
+============================================================
+
+4 MANDATORY CHARTS (⭐):
+  ⭐ chart_03_revenue_by_product_stacked_area.png
+  ⭐ chart_04_revenue_by_geography_stacked_bar.png
+  ⭐ chart_28_dcf_sensitivity_heatmap.png
+  ⭐ chart_32_valuation_football_field.png
+
+全部圖表 (29 張):
+  chart_01_stock_price_performance.png  (270 KB)
+  chart_02_revenue_growth_trajectory.png  (178 KB)
+  chart_03_revenue_by_product_stacked_area.png  (183 KB)
+  chart_04_revenue_by_geography_stacked_bar.png  (136 KB)
+  chart_05_company_overview.png  (107 KB)
+  chart_06_key_milestones_timeline.png  (79 KB)
+  chart_07_organizational_structure.png  (84 KB)
+  chart_08_product_portfolio.png  (85 KB)
+  chart_09_customer_segmentation.png  (217 KB)
+  chart_10_gross_margin_evolution.png  (144 KB)
+  chart_11_ebitda_margin_progression.png  (172 KB)
+  chart_12_free_cash_flow_trend.png  (169 KB)
+  chart_13_operating_metrics_dashboard.png  (391 KB)
+  chart_14_scenario_comparison.png  (233 KB)
+  chart_15_market_size_evolution.png  (210 KB)
+  chart_16_competitive_positioning.png  (116 KB)
+  chart_17_market_share.png  (233 KB)
+  chart_18_competitive_benchmarking.png  (243 KB)
+  chart_19_temu_model_transition.png  (134 KB)
+  chart_20_rd_sm_investment_trends.png  (182 KB)
+  chart_21_cash_and_working_capital.png  (164 KB)
+  chart_22_geographic_revenue_mix_shift.png  (149 KB)
+  chart_28_dcf_sensitivity_heatmap.png  (291 KB)
+  chart_29_dcf_valuation_waterfall.png  (141 KB)
+  chart_30_trading_comps_scatter.png  (149 KB)
+  chart_31_peer_multiples_comparison.png  (179 KB)
+  chart_32_valuation_football_field.png  (141 KB)
+  chart_33_price_target_scenarios.png  (97 KB)
+  chart_34_historical_valuation_multiples.png  (264 KB)
+
+============================================================
+Note: All charts at 300 DPI, white background, PNG format.
+Ready for embedding in Task 5 (Report Assembly).
