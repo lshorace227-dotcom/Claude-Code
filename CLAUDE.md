@@ -1,8 +1,6 @@
 # CLAUDE.md
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
-
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository Info
 
@@ -10,6 +8,50 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 - **Email:** lshorace227@gmail.com
 - **Purpose:** Archive Claude Code session outputs, scripts, and generated files
 - **Repo:** https://github.com/lshorace227-dotcom/Claude-Code
+
+## What This Repository Is
+
+An archive of deliverables produced in Claude Code sessions — equity research reports, daily news digests, financial documents, and one-off HTML tools. It is **not** a software project: there is no build system, test suite, linter, or CI. Each top-level directory is a self-contained session output.
+
+### Structure
+
+- `pdd-initiation-coverage/`, `pdd-earnings-update-q1-2026/`, `atat-earnings-update-q1-2026/` — Equity research reports: Python build scripts plus committed DOCX/XLSX/PNG outputs
+- `macau-news/` — Daily Macau news digests, one Markdown file per day named `YYYY-MM-DD.md`
+- `haitong-interview-prep/` — Interview prep handbook (HTML source of truth + PDF built via `build_pdf.py`)
+- `ctl/`, `investment/` — Markdown records (conversation transcript, investment proposal)
+- `countdown-timer.html` — Standalone HTML tool
+- `skills-lock.json` / `.agents/skills/` — Pinned Claude Code skills (currently `frontend-design` from anthropics/skills)
+
+## Conventions
+
+### New deliverables
+
+- Put each new project in its own kebab-case top-level directory (e.g. `pdd-earnings-update-q1-2026`).
+- Generated artifacts (DOCX, PDF, PNG, XLSX) are **committed**, not gitignored — the outputs are the point of the repo.
+- Commit messages follow conventional-commit style with descriptions typically in Traditional Chinese, e.g. `feat: 澳門每日新聞摘要 2026-06-05`.
+
+### Research report pipeline
+
+The equity-research directories share a two-step pattern:
+
+1. `python3 generate_charts.py` — matplotlib (`Agg` backend), writes 300 DPI PNGs to `./charts/`
+2. `python3 build_report.py` — python-docx, embeds the charts and writes the DOCX
+
+Scripts resolve paths relative to `__file__`, so they run from any working directory. Chinese-language variants use a `_zh` suffix (`build_report_zh.py`, `charts_zh/`). Dependencies: `python-docx`, `matplotlib`, `numpy`; `reportlab` for PDFs.
+
+### CJK / PDF output
+
+LibreOffice, Chromium, and WeasyPrint are unavailable in this environment. Build CJK-capable PDFs with reportlab, registering the WenQuanYi font: `/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc` (see `haitong-interview-prep/build_pdf.py`).
+
+### Macau news digests
+
+Files in `macau-news/` follow a fixed format: Traditional Chinese, title `# 📰 澳門每日新聞摘要 — YYYY年MM月DD日`, a source attribution blockquote, then emoji-headed topic sections (🏛️ 政治/行政, etc.) where each story has a bolded bracketed headline, bullet-point details, and a `🔗 [閱讀全文](url)` source link.
+
+---
+
+# Behavioral Guidelines
+
+Guidelines to reduce common LLM coding mistakes. **Tradeoff:** these bias toward caution over speed. For trivial tasks, use judgment.
 
 ## 1. Think Before Coding
 
