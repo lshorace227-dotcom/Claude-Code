@@ -35,6 +35,11 @@ app.get('/api/top', async (req, res) => {
   }
 });
 
+// --- Experiment: live market ticker (flag-gated, removable) ---
+// Delete this line + the src/experiments/ticker and public/experiments/ticker
+// folders to remove the experiment entirely.
+require('./src/experiments/ticker/route').mountTicker(app);
+
 loadTranslationCache();
 const flushTimer = setInterval(flushTranslationCache, 10000);
 if (flushTimer.unref) flushTimer.unref();
