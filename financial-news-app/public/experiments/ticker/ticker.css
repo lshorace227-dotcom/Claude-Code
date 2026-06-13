@@ -1,0 +1,75 @@
+/* Experiment: live market ticker (flash grid). All selectors are .exp-* scoped
+   to avoid touching the core app's styles. */
+.exp-ticker {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: #0d1118;
+  border-bottom: 1px solid #232b3d;
+}
+.exp-ticker-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background: #16c784;
+  border-radius: 6px;
+}
+.exp-ticker.demo .exp-ticker-tag {
+  background: #c98b2a;
+}
+.exp-pill {
+  min-width: 132px;
+  padding: 6px 11px;
+  background: #141925;
+  border: 1px solid #232b3d;
+  border-radius: 9px;
+}
+.exp-pill-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+}
+.exp-zh {
+  font-size: 12px;
+  color: #8b94a7;
+}
+.exp-sym {
+  font-size: 10px;
+  color: #8b94a7;
+  opacity: 0.7;
+}
+.exp-px {
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-top: 1px;
+}
+.exp-chg {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.exp-chg.up { color: #16c784; }
+.exp-chg.down { color: #ea3943; }
+
+/* flash plays once when a fresh pill node is rendered with these classes */
+.exp-pill.flash-up { animation: exp-flash-up 0.6s ease-out; }
+.exp-pill.flash-down { animation: exp-flash-down 0.6s ease-out; }
+@keyframes exp-flash-up {
+  from { background: rgba(22, 199, 132, 0.28); }
+  to { background: #141925; }
+}
+@keyframes exp-flash-down {
+  from { background: rgba(234, 57, 67, 0.28); }
+  to { background: #141925; }
+}
+
+@media (max-width: 640px) {
+  .exp-pill { flex: 1 1 40%; min-width: 0; }
+}

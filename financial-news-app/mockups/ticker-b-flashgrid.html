@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ticker Mockup B · 静态闪动卡片 Flash grid</title>
+<style>
+  :root{--bg:#0b0e14;--panel:#141925;--panel2:#1c2333;--border:#232b3d;--text:#e6e9f0;--muted:#8b94a7;--up:#16c784;--down:#ea3943;--accent:#3b82f6;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Arial,sans-serif;}
+  .mock-label{background:#1f2b1f;color:#9be3b6;font-size:12px;padding:6px 16px;border-bottom:1px solid #2c4030;}
+  .mock-label b{color:#fff;}
+  header.topbar{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--panel);border-bottom:1px solid var(--border);}
+  .logo{color:var(--up);font-size:24px;}
+  header h1{font-size:18px;margin:0;}
+  header p{margin:1px 0 0;color:var(--muted);font-size:11px;}
+  /* --- pill grid --- */
+  .strip{display:flex;flex-wrap:wrap;gap:10px;padding:12px 20px;background:#0d1118;border-bottom:1px solid var(--border);}
+  .pill{position:relative;min-width:138px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 12px;transition:background .5s;}
+  .pill .top{display:flex;justify-content:space-between;align-items:center;}
+  .pill .zh{font-size:12px;color:var(--muted);}
+  .pill .sym{font-size:10px;color:var(--muted);opacity:.7;}
+  .pill .px{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px;}
+  .pill .chg{font-size:12px;font-variant-numeric:tabular-nums;}
+  .up{color:var(--up);} .down{color:var(--down);}
+  .star{cursor:pointer;color:#3a4560;font-size:14px;line-height:1;}
+  .star.on{color:#f5c542;}
+  .pill.pinned{border-color:#f5c542;}
+  .flash-up{background:rgba(22,199,132,.22);} .flash-down{background:rgba(234,57,67,.22);}
+  .hint{color:var(--muted);font-size:12px;padding:14px 20px;}
+  .body-fake{padding:0 20px;} .row{height:18px;background:var(--panel2);border-radius:6px;margin:14px 0;opacity:.5;}
+  .row.s{width:40%;} .row.m{width:70%;}
+</style>
+</head>
+<body>
+  <div class="mock-label"><b>MOCKUP B</b> — 静态闪动卡片 / Static flash grid · 不滚动；价格原地更新，涨跌时整卡闪一下绿/红。点 ★ 置顶。No motion; flashes on change, click ★ to pin.</div>
+  <header class="topbar">
+    <span class="logo">◆</span>
+    <div><h1>全球金融新闻</h1><p>Global Financial News · 中英对照</p></div>
+  </header>
+
+  <div class="strip" id="strip"></div>
+
+  <div class="body-fake">
+    <p class="hint">↑ 紧凑卡片行，可换行自适应。涨跌闪动比滚动更易追踪，且无“晕动感”。<br/>Compact wrapping cards; easier to track than a moving tape. Simulated data.</p>
+    <div class="row m"></div><div class="row s"></div><div class="row m"></div><div class="row s"></div>
+  </div>
+
+<script>
+const data = [
+  {sym:'S&P 500', zh:'标普500', open:5123.4},
+  {sym:'Nasdaq', zh:'纳斯达克', open:16012.5},
+  {sym:'Dow', zh:'道指', open:38765.2},
+  {sym:'Hang Seng', zh:'恒生', open:17234.6},
+  {sym:'Nikkei', zh:'日经225', open:38920.1},
+  {sym:'SSE', zh:'上证指数', open:3012.4},
+  {sym:'BTC', zh:'比特币', open:90250},
+  {sym:'ETH', zh:'以太坊', open:4820},
+  {sym:'USD/CNY', zh:'美元/人民币', open:7.18},
+  {sym:'USD/JPY', zh:'美元/日元', open:156.3},
+  {sym:'Gold', zh:'黄金', open:2412.5},
+  {sym:'WTI', zh:'原油', open:78.6},
+];
+data.forEach((d,i)=>{ d.price = d.open*(1+(Math.random()-0.5)*0.02); d.pinned=false; d.id=i; });
+function fmt(v){ return v>=1000 ? v.toLocaleString('en-US',{maximumFractionDigits:0}) : v.toFixed(v<10?3:2); }
+
+const strip = document.getElementById('strip');
+function render(){
+  const sorted = [...data].sort((a,b)=> (b.pinned-a.pinned));
+  strip.innerHTML = sorted.map(d=>{
+    const chg=(d.price-d.open)/d.open*100, cls=chg>=0?'up':'down';
+    return `<div class="pill ${d.pinned?'pinned':''}" data-id="${d.id}">
+      <div class="top"><span class="zh">${d.zh}</span><span class="star ${d.pinned?'on':''}" data-star="${d.id}">★</span></div>
+      <div class="sym">${d.sym}</div>
+      <div class="px">${fmt(d.price)}</div>
+      <div class="chg ${cls}">${chg>=0?'▲':'▼'}${Math.abs(chg).toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+render();
+
+strip.addEventListener('click', e=>{
+  const s=e.target.closest('[data-star]'); if(!s) return;
+  const d=data[+s.dataset.star]; d.pinned=!d.pinned; render();
+});
+
+setInterval(()=>{
+  data.forEach(d=>{
+    const before=d.price;
+    d.price *= (1+(Math.random()-0.5)*0.005);
+    d._dir = d.price>=before?'up':'down';
+  });
+  render();
+  // flash the cards based on direction of last move
+  document.querySelectorAll('.pill').forEach(p=>{
+    const d=data[+p.dataset.id];
+    p.classList.add(d._dir==='up'?'flash-up':'flash-down');
+    setTimeout(()=>p.classList.remove('flash-up','flash-down'),500);
+  });
+}, 2200);
+</script>
+</body>
+</html>

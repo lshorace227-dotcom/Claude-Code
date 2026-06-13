@@ -1,0 +1,14 @@
+[
+  { "id": "spx", "sym": "S&P 500", "zh": "标普500", "group": "idx", "price": 5123.4, "changePct": 0.42 },
+  { "id": "ndq", "sym": "Nasdaq", "zh": "纳斯达克", "group": "idx", "price": 16012.5, "changePct": 0.61 },
+  { "id": "dji", "sym": "Dow", "zh": "道指", "group": "idx", "price": 38765.2, "changePct": -0.12 },
+  { "id": "hsi", "sym": "Hang Seng", "zh": "恒生", "group": "idx", "price": 17234.6, "changePct": 0.88 },
+  { "id": "nkx", "sym": "Nikkei 225", "zh": "日经225", "group": "idx", "price": 38920.1, "changePct": -0.35 },
+  { "id": "ssec", "sym": "SSE", "zh": "上证指数", "group": "idx", "price": 3012.4, "changePct": 0.21 },
+  { "id": "btc", "sym": "BTC", "zh": "比特币", "group": "crypto", "price": 90250, "changePct": 2.10 },
+  { "id": "eth", "sym": "ETH", "zh": "以太坊", "group": "crypto", "price": 4820, "changePct": 1.45 },
+  { "id": "usdcny", "sym": "USD/CNY", "zh": "美元/人民币", "group": "fx", "price": 7.18, "changePct": -0.05 },
+  { "id": "usdjpy", "sym": "USD/JPY", "zh": "美元/日元", "group": "fx", "price": 156.3, "changePct": 0.22 },
+  { "id": "gold", "sym": "Gold", "zh": "黄金", "group": "cmd", "price": 2412.5, "changePct": 0.33 },
+  { "id": "wti", "sym": "WTI Oil", "zh": "原油", "group": "cmd", "price": 78.6, "changePct": -0.74 }
+]

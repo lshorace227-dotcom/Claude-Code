@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全球金融新闻 · Global Financial News</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div>
+        <h1>全球金融新闻</h1>
+        <p class="subtitle">Global Financial News · 中英对照实时资讯</p>
+      </div>
+    </div>
+    <div class="status">
+      <span id="live-dot" class="live-dot"></span>
+      <span id="live-text">实时 LIVE</span>
+      <span id="updated" class="updated"></span>
+    </div>
+  </header>
+
+  <div id="demo-banner" class="demo-banner hidden">
+    ⚠️ 实时数据源暂不可达，正在显示示例数据。 Live sources unreachable — showing sample data.
+  </div>
+
+  <div class="controls">
+    <nav id="tabs" class="tabs"></nav>
+    <div class="control-right">
+      <div class="mode-toggle" id="mode-toggle">
+        <button data-mode="both" class="active">中英 EN+中</button>
+        <button data-mode="zh">中文</button>
+        <button data-mode="en">EN</button>
+      </div>
+      <input id="search" class="search" type="search" placeholder="搜索新闻 Search…" />
+    </div>
+  </div>
+
+  <main>
+    <section class="top-section">
+      <h2 class="section-title">🔥 重点推荐 <span class="en">Top Picks</span></h2>
+      <div id="top-grid" class="top-grid"></div>
+    </section>
+
+    <section>
+      <h2 class="section-title">📰 最新资讯 <span class="en">Latest</span></h2>
+      <div id="news-grid" class="news-grid"></div>
+      <p id="empty" class="empty hidden">暂无匹配新闻。No matching news.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    数据来源：免费 / freemium 财经聚合源 · 翻译由机器翻译提供，仅供参考。<br />
+    Sources: free/freemium financial aggregators · Machine-translated, for reference only.
+  </footer>
+
+  <script src="app.js"></script>
+  <!-- Experiment: live market ticker (no-ops when EXPERIMENT_TICKER is off) -->
+  <script defer src="experiments/ticker/ticker.js"></script>
+</body>
+</html>
