@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Fed holds rates steady but signals two cuts later this year as inflation cools",
+    "summary": "The Federal Reserve kept its benchmark rate unchanged and projected two quarter-point cuts in 2026, citing easing price pressures and a resilient labor market.",
+    "url": "https://example.com/news/fed-holds-rates",
+    "source": "Sample Wire",
+    "weight": 5,
+    "category": "macro"
+  },
+  {
+    "title": "S&P 500 hits record high as megacap tech rallies on AI demand",
+    "summary": "U.S. stocks surged to fresh records, led by semiconductor and cloud names, as investors bet that AI capital spending will keep driving earnings growth.",
+    "url": "https://example.com/news/sp500-record",
+    "source": "Sample Wire",
+    "weight": 4,
+    "category": "stocks"
+  },
+  {
+    "title": "Bitcoin tops $90,000 as spot ETF inflows accelerate",
+    "summary": "The largest cryptocurrency jumped past $90,000 amid record inflows into U.S. spot bitcoin ETFs and growing institutional adoption.",
+    "url": "https://example.com/news/bitcoin-90k",
+    "source": "Sample Wire",
+    "weight": 4,
+    "category": "crypto"
+  },
+  {
+    "title": "Oil prices plunge 4% on surprise build in U.S. crude inventories",
+    "summary": "Brent and WTI crude tumbled after government data showed an unexpected jump in stockpiles, raising concerns about softening global demand.",
+    "url": "https://example.com/news/oil-plunge",
+    "source": "Sample Wire",
+    "weight": 4,
+    "category": "commodities"
+  },
+  {
+    "title": "Dollar slips against yen after Bank of Japan signals policy shift",
+    "summary": "The U.S. dollar weakened versus the Japanese yen as the BOJ hinted at further normalization, narrowing the rate gap between the two economies.",
+    "url": "https://example.com/news/dollar-yen",
+    "source": "Sample Wire",
+    "weight": 3,
+    "category": "forex"
+  },
+  {
+    "title": "Nvidia beats earnings estimates, guides higher on data-center demand",
+    "summary": "The chipmaker reported record quarterly revenue and raised its outlook, fueled by relentless demand for AI accelerators from cloud providers.",
+    "url": "https://example.com/news/nvidia-earnings",
+    "source": "Sample Wire",
+    "weight": 4,
+    "category": "stocks"
+  },
+  {
+    "title": "Gold climbs to all-time high as investors seek safe havens",
+    "summary": "Bullion rallied to a record amid geopolitical tensions and expectations of looser monetary policy, with central-bank buying adding support.",
+    "url": "https://example.com/news/gold-record",
+    "source": "Sample Wire",
+    "weight": 3,
+    "category": "commodities"
+  },
+  {
+    "title": "Eurozone inflation eases to 2.1%, bolstering case for ECB rate cut",
+    "summary": "Consumer price growth in the euro area slowed more than expected, strengthening market bets that the European Central Bank will lower rates next month.",
+    "url": "https://example.com/news/eurozone-inflation",
+    "source": "Sample Wire",
+    "weight": 4,
+    "category": "macro"
+  }
+]

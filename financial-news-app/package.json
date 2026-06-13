@@ -1,0 +1,15 @@
+{
+  "name": "financial-news-app",
+  "version": "1.0.0",
+  "description": "Real-time global financial news web app with bilingual (Chinese-English) display",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "rss-parser": "^3.13.0"
+  }
+}
