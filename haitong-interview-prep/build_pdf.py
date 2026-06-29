@@ -12,9 +12,20 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-FONT = "WQY"
-pdfmetrics.registerFont(TTFont(FONT, "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc", subfontIndex=0))
-pdfmetrics.registerFontFamily(FONT, normal=FONT, bold=FONT, italic=FONT, boldItalic=FONT)
+# Mode: "en" uses DejaVu Sans (real bold, full Latin glyphs); default uses WQY (CJK).
+MODE = sys.argv[1] if len(sys.argv) > 1 else "cn"
+if MODE == "en":
+    DV = "/usr/share/fonts/truetype/dejavu"
+    pdfmetrics.registerFont(TTFont("Body", f"{DV}/DejaVuSans.ttf"))
+    pdfmetrics.registerFont(TTFont("Body-Bold", f"{DV}/DejaVuSans-Bold.ttf"))
+    pdfmetrics.registerFont(TTFont("Mono", f"{DV}/DejaVuSansMono.ttf"))
+    pdfmetrics.registerFontFamily("Body", normal="Body", bold="Body-Bold", italic="Body", boldItalic="Body-Bold")
+    FONT, MONO = "Body", "Mono"
+else:
+    FONT = MONO = "WQY"
+    pdfmetrics.registerFont(TTFont(FONT, "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc", subfontIndex=0))
+    pdfmetrics.registerFontFamily(FONT, normal=FONT, bold=FONT, italic=FONT, boldItalic=FONT)
+
 
 BLUE = colors.HexColor("#0a4d8c")
 BLUE2 = colors.HexColor("#14598a")
@@ -33,7 +44,7 @@ styles = {
     "cell": ParagraphStyle("cell", fontName=FONT, fontSize=9, leading=12.5, textColor=colors.HexColor("#1a1a1a")),
     "cellh": ParagraphStyle("cellh", fontName=FONT, fontSize=9, leading=12.5, textColor=colors.white),
     "li": ParagraphStyle("li", fontName=FONT, fontSize=10.5, leading=15, textColor=colors.HexColor("#1a1a1a"), leftIndent=16, firstLineIndent=-12, spaceAfter=3),
-    "pre": ParagraphStyle("pre", fontName=FONT, fontSize=8.5, leading=11.5, textColor=colors.HexColor("#222222")),
+    "pre": ParagraphStyle("pre", fontName=MONO, fontSize=8.5, leading=11.5, textColor=colors.HexColor("#222222")),
     "footer": ParagraphStyle("footer", fontName=FONT, fontSize=9, leading=12, textColor=GREY, alignment=1, spaceBefore=10),
 }
 
@@ -98,7 +109,7 @@ class Conv(HTMLParser):
             elif tag in ("i", "em"):
                 self.target_append("<i>"); self.closes.append("</i>")
             elif tag == "code":
-                self.target_append('<font face="Courier" backColor="#eeeeee">'); self.closes.append("</font>")
+                self.target_append(f'<font face="{MONO}" backColor="#eeeeee">'); self.closes.append("</font>")
             elif tag == "span":
                 if "label-cn" in cls:
                     self.target_append('<font color="#777777"><b>'); self.closes.append("</b></font>")
@@ -244,14 +255,21 @@ class Conv(HTMLParser):
 
 
 def main():
-    src = open("/home/user/Claude-Code/haitong-interview-prep/Haitong_Interview_Prep.html", encoding="utf-8").read()
-    # Replace emoji / glyphs the CJK font lacks, with clean text equivalents
-    reps = {"🔴": "[必背] ", "🟡": "[重点] ", "🟢": "[熟悉] ", "☐": "[ ] ",
-            "✅": "✓ ", "⚠️": "注意：", "⚠": "注意："}
+    base = "/home/user/Claude-Code/haitong-interview-prep"
+    if MODE == "en":
+        html_path = f"{base}/Haitong_Interview_Prep_EN.html"
+        pdf_path = f"{base}/Haitong_Interview_Prep_EN.pdf"
+        reps = {"🔴": "[MUST] ", "🟡": "[KEY] ", "🟢": "[KNOW] ", "☐": "[ ] ", "⚠️": "Note: ", "⚠": "Note: "}
+    else:
+        html_path = f"{base}/Haitong_Interview_Prep.html"
+        pdf_path = f"{base}/Haitong_Interview_Prep.pdf"
+        reps = {"🔴": "[必背] ", "🟡": "[重点] ", "🟢": "[熟悉] ", "☐": "[ ] ",
+                "✅": "✓ ", "⚠️": "注意：", "⚠": "注意："}
+    src = open(html_path, encoding="utf-8").read()
     for k, v in reps.items():
         src = src.replace(k, v)
 
-    doc = SimpleDocTemplate("/home/user/Claude-Code/haitong-interview-prep/Haitong_Interview_Prep.pdf",
+    doc = SimpleDocTemplate(pdf_path,
                             pagesize=A4, topMargin=1.8 * cm, bottomMargin=1.8 * cm,
                             leftMargin=1.9 * cm, rightMargin=1.9 * cm,
                             title="Haitong Interview Prep")
