@@ -14,7 +14,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 # Mode: "en" uses DejaVu Sans (real bold, full Latin glyphs); default uses WQY (CJK).
 MODE = sys.argv[1] if len(sys.argv) > 1 else "cn"
-if MODE == "en":
+if MODE in ("en", "card"):
     DV = "/usr/share/fonts/truetype/dejavu"
     pdfmetrics.registerFont(TTFont("Body", f"{DV}/DejaVuSans.ttf"))
     pdfmetrics.registerFont(TTFont("Body-Bold", f"{DV}/DejaVuSans-Bold.ttf"))
@@ -156,7 +156,8 @@ class Conv(HTMLParser):
         if self.skip or (self.cap is None and not self.in_cell):
             return
         if self.cap and self.cap["tag"] == "pre":
-            self.target_append(esc(data))
+            # Preformatted renders plain text — charrefs are already decoded, do not re-escape
+            self.target_append(data)
         else:
             txt = re.sub(r"\s+", " ", data)
             if txt:
@@ -256,9 +257,10 @@ class Conv(HTMLParser):
 
 def main():
     base = "/home/user/Claude-Code/haitong-interview-prep"
-    if MODE == "en":
-        html_path = f"{base}/Haitong_Interview_Prep_EN.html"
-        pdf_path = f"{base}/Haitong_Interview_Prep_EN.pdf"
+    if MODE in ("en", "card"):
+        name = "Haitong_Interview_Prep_EN" if MODE == "en" else "Cram_Card"
+        html_path = f"{base}/{name}.html"
+        pdf_path = f"{base}/{name}.pdf"
         reps = {"🔴": "[MUST] ", "🟡": "[KEY] ", "🟢": "[KNOW] ", "☐": "[ ] ", "⚠️": "Note: ", "⚠": "Note: "}
     else:
         html_path = f"{base}/Haitong_Interview_Prep.html"
