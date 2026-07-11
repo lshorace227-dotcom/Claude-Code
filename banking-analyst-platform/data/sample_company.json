@@ -1,0 +1,93 @@
+{
+  "company": {
+    "name": "大明精密工業股份有限公司（範例資料）",
+    "tax_id": "12345678",
+    "industry": "金屬加工／精密零組件製造",
+    "established": "2005-03",
+    "chairman": "王大明",
+    "capital": 350000,
+    "employees": 420,
+    "credit_rating_internal": "第 5 等（十等第制）",
+    "relationship_since": "2018-06",
+    "business_description": "主要從事工具機與自動化設備精密零組件之製造與銷售，內外銷比重約 6:4，主要外銷市場為日本及東南亞。"
+  },
+  "application": {
+    "facility_type": "週轉性授信",
+    "amount": 150000,
+    "tenor": "一年（循環動用）",
+    "purpose": "營運週轉",
+    "collateral": "本公司廠房及機器設備設定第一順位抵押權（最近鑑估值 180,000 仟元）",
+    "guarantors": "董事長王大明連帶保證",
+    "pricing": "依行內定價政策另議"
+  },
+  "financials": {
+    "unit": "新台幣仟元",
+    "years": {
+      "2023": {
+        "revenue": 850000,
+        "cogs": 663000,
+        "operating_expenses": 119000,
+        "interest_expense": 9500,
+        "pretax_income": 61000,
+        "net_income": 48800,
+        "cash": 95000,
+        "accounts_receivable": 165000,
+        "inventory": 128000,
+        "current_assets": 420000,
+        "total_assets": 980000,
+        "current_liabilities": 310000,
+        "total_liabilities": 560000,
+        "short_term_debt": 150000,
+        "long_term_debt": 180000,
+        "accounts_payable": 96000,
+        "equity": 420000,
+        "operating_cash_flow": 52000
+      },
+      "2024": {
+        "revenue": 920000,
+        "cogs": 726800,
+        "operating_expenses": 128000,
+        "interest_expense": 11000,
+        "pretax_income": 57500,
+        "net_income": 46000,
+        "cash": 88000,
+        "accounts_receivable": 198000,
+        "inventory": 152000,
+        "current_assets": 470000,
+        "total_assets": 1060000,
+        "current_liabilities": 345000,
+        "total_liabilities": 615000,
+        "short_term_debt": 175000,
+        "long_term_debt": 185000,
+        "accounts_payable": 102000,
+        "equity": 445000,
+        "operating_cash_flow": 41000
+      },
+      "2025": {
+        "revenue": 985000,
+        "cogs": 788000,
+        "operating_expenses": 138000,
+        "interest_expense": 13500,
+        "pretax_income": 49000,
+        "net_income": 39200,
+        "cash": 76000,
+        "accounts_receivable": 232000,
+        "inventory": 178000,
+        "current_assets": 520000,
+        "total_assets": 1150000,
+        "current_liabilities": 388000,
+        "total_liabilities": 682000,
+        "short_term_debt": 205000,
+        "long_term_debt": 190000,
+        "accounts_payable": 108000,
+        "equity": 468000,
+        "operating_cash_flow": 33000
+      }
+    }
+  },
+  "covenants": [
+    { "metric": "current_ratio", "operator": ">=", "threshold": 1.2, "name": "流動比率不低於 1.2 倍" },
+    { "metric": "debt_ratio", "operator": "<=", "threshold": 60, "name": "負債比率不高於 60%" },
+    { "metric": "interest_coverage", "operator": ">=", "threshold": 3, "name": "利息保障倍數不低於 3 倍" }
+  ]
+}
