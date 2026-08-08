@@ -78,8 +78,25 @@ win available to you, so it gets daily priority.
 | 2027-01-23 | 24 | 73.5 kg | 84 cm | Full abs, shoulder-to-waist V clear |
 | 2027-03-06 | 30 | **72 kg** | **81 cm** | **Target physique** |
 
-Rate: ~0.4 kg/week. Slow on purpose — anything faster and you burn the
-muscle that is the entire reason this plan works.
+Rate: **0.36 kg/week average.** Slow on purpose — anything faster and you
+burn the muscle that is the entire reason this plan works.
+
+That number is deliberately below the 0.45 kg/week a perfectly clean week
+would produce, because **the timeline assumes you eat two business dinners
+every week.** They cost ~700 kcal/week against the deficit, and that drag is
+already inside the 30 weeks. See
+[`02-nutrition.md`](02-nutrition.md#your-actual-load-2-dinners-per-week--and-its-already-priced-in).
+
+---
+
+## Confirmed context
+
+- **Gym access:** yes — the program in [`03`](03-training-program.md) is
+  written for a full gym. Home and travel fallbacks are included for the
+  weeks it doesn't happen.
+- **Business dinners:** 2 per week, budgeted into the calorie plan.
+- **Work:** desk-based, finance. The posture protocol and the hourly desk
+  resets are built around 8+ hours at a screen.
 
 ---
 

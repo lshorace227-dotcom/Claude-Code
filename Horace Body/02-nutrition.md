@@ -161,10 +161,50 @@ plan that fails in week three. Handle it explicitly instead.
   immediately. One dinner does not undo a week; a week of guilt-driven
   chaos does.
 
-**The realistic rule:** two 应酬 dinners per week is survivable within this
-plan. Three or more per week, sustained, and your timeline extends — that's
-just arithmetic, not a moral failing. Tell me if that's your normal and
-I'll rebuild the numbers around it.
+### Your actual load: 2 dinners per week — and it's already priced in
+
+Confirmed at **two 应酬 dinners per week.** Here's the arithmetic, so you can
+stop wondering whether they're wrecking things.
+
+A typical business dinner runs **1,100–1,400 kcal** against the 700 kcal
+dinner the plan allocates. Bank calories during the day (below) and you claw
+back ~350, leaving a net overage of roughly **350 kcal per dinner**.
+
+| | kcal |
+|---|---|
+| Weekly deficit on 7 clean days | −3,500 |
+| 2 business dinners, net overage | +700 |
+| **Realized weekly deficit** | **−2,800** |
+
+−2,800 kcal/week ≈ **0.36 kg of fat per week.** Over 30 weeks that's
+**10.8 kg** — which is precisely the 82.8 → 72.0 kg target.
+
+**So the 30-week timeline already assumes you eat two business dinners every
+week.** They are budgeted, not tolerated. Nothing needs to change.
+
+### The dinner-day protocol
+
+On a day you know a 应酬 is coming:
+
+| Meal | Normal training day | Dinner day |
+|---|---|---|
+| Breakfast | 450 kcal | 400 kcal — cut the bread/馒头 |
+| Lunch | 650 kcal | 450 kcal — protein + vegetables, skip the rice |
+| Pre-dinner | — | **30 g protein shake before you leave** |
+| Dinner | 700 kcal | ~1,100 kcal budget |
+
+The pre-dinner shake is the highest-leverage item on that list. Arriving
+hungry is what turns a 1,100 kcal dinner into a 1,800 kcal one.
+
+**Keep protein at 170 g regardless.** Business dinners are usually
+protein-rich — fish, meat, tofu — so this is normally easy. The calories
+come from oil, sauces, alcohol, and the late carbs, not the protein.
+
+### If it ever becomes 3+ per week
+
+Sustained, that adds ~350 kcal/week and pushes the timeline out by roughly
+4–5 weeks. Not a failure — just arithmetic. Tell me if your schedule shifts
+and I'll re-cut the milestone table.
 
 ---
 

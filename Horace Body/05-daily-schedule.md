@@ -123,10 +123,19 @@ If even that's impossible, do the posture routine and hit your protein. One
 missed session in 30 weeks is 0.8% of the program. It is genuinely nothing.
 Two missed sessions in a row is a pattern — that's the one to watch.
 
-**Business dinner tonight.**
-Run rest-day macros for breakfast and lunch to bank calories. Eat 30 g
-protein before you go. Protein and vegetables first at the table. See
-[`02-nutrition.md`](02-nutrition.md#business-dinners-and-drinking).
+**Business dinner tonight.** *(Expect 2 per week — these are budgeted, not
+emergencies.)*
+Trim breakfast to 400 kcal and lunch to 450 kcal to bank calories. **Drink a
+30 g protein shake before you leave** — this is the one that matters, because
+arriving hungry is what turns a 1,100 kcal dinner into an 1,800 kcal one.
+Protein and vegetables first at the table, skip the sesame dipping sauce, cap
+alcohol at 3. Full protocol in
+[`02-nutrition.md`](02-nutrition.md#the-dinner-day-protocol).
+
+**Try to schedule 应酬 on your training days**, not rest days. You'll have
+~350 more kcal of room in the budget and the meal partly refuels the session.
+If you can influence the calendar at all, Monday/Thursday are the best nights
+for it and Wednesday is the worst.
 
 **Travelling.**
 Resistance band in the bag. Hotel room workout. Walk the city instead of
