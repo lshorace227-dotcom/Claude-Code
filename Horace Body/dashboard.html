@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Horace Body — Dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --grid: #e1e0d9;
+    --axis: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --lean: #2a78d6;
+    --fat: #eb6834;
+    --good: #0ca30c;
+    --success-text: #006300;
+    --seq-hi: #104281;
+    --seq-mid: #2a78d6;
+    --seq-lo: #86b6ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --grid: #2c2c2a;
+      --axis: #383835;
+      --border: rgba(255,255,255,0.10);
+      --lean: #3987e5;
+      --fat: #d95926;
+      --good: #0ca30c;
+      --success-text: #0ca30c;
+      --seq-hi: #86b6ef;
+      --seq-mid: #3987e5;
+      --seq-lo: #1c5cab;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --page: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --border: rgba(255,255,255,0.10);
+    --lean: #3987e5;
+    --fat: #d95926;
+    --good: #0ca30c;
+    --success-text: #0ca30c;
+    --seq-hi: #86b6ef;
+    --seq-mid: #3987e5;
+    --seq-lo: #1c5cab;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 20px 72px; }
+
+  header { margin-bottom: 40px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600; margin: 0 0 10px;
+  }
+  h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.12; margin: 0 0 12px; letter-spacing: -.02em; }
+  .sub { color: var(--text-secondary); font-size: 16px; margin: 0; max-width: 62ch; }
+
+  section { margin-bottom: 44px; }
+  h2 {
+    font-size: 13px; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600;
+    margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+  }
+
+  /* Hero */
+  .hero { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 36px; }
+  .hero-fig { font-size: clamp(56px, 12vw, 92px); font-weight: 700; line-height: .95; letter-spacing: -.035em; }
+  .hero-fig span { font-size: .32em; font-weight: 600; color: var(--text-muted); letter-spacing: 0; }
+  .hero-lab { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; margin-top: 8px; }
+  .hero-arrow { font-size: 32px; color: var(--text-muted); padding-bottom: 26px; }
+
+  /* KPI */
+  .kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .tile-lab { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .07em; font-weight: 600; margin-bottom: 8px; }
+  .tile-val { font-size: 30px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+  .tile-val u { text-decoration: none; font-size: 15px; font-weight: 600; color: var(--text-muted); }
+  .tile-note { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+  .tile-note b { color: var(--success-text); font-weight: 600; }
+
+  /* Callout */
+  .callout { border-left: 3px solid var(--lean); padding: 4px 0 4px 20px; }
+  .callout p { margin: 0 0 10px; color: var(--text-secondary); }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout strong { color: var(--text-primary); }
+
+  /* Composition bars */
+  .comp-row { margin-bottom: 20px; }
+  .comp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 14px; }
+  .comp-head b { font-size: 15px; }
+  .comp-head span { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .comp-bar { display: flex; height: 40px; gap: 2px; }
+  .comp-seg {
+    border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap;
+    transition: opacity .15s;
+  }
+  .comp-seg:hover { opacity: .82; }
+  .seg-lean { background: var(--lean); }
+  .seg-fat  { background: var(--fat); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 6px; font-size: 13px; color: var(--text-secondary); }
+  .legend i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; margin-right: 7px; vertical-align: -1px; }
+
+  /* Charts */
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+  .chart-title { font-size: 15px; font-weight: 650; margin: 0 0 2px; }
+  .chart-sub { font-size: 13px; color: var(--text-muted); margin: 0 0 14px; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .gridline { stroke: var(--grid); stroke-width: 1; }
+  .baseline { stroke: var(--axis); stroke-width: 1; }
+  .tick { fill: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .dot { stroke: var(--surface-1); stroke-width: 2; }
+  .dot-hit { fill: transparent; cursor: pointer; }
+  .dot-hit:hover + .dot, .dot-hit:focus + .dot { r: 7; }
+  .plabel { font-size: 11.5px; font-weight: 700; fill: var(--text-primary); font-variant-numeric: tabular-nums; }
+
+  /* Segmental */
+  .seg-list { display: grid; gap: 11px; }
+  .seg-item { display: grid; grid-template-columns: 92px 1fr 62px; align-items: center; gap: 12px; font-size: 13.5px; }
+  .seg-name { color: var(--text-secondary); }
+  .seg-track { height: 22px; background: var(--grid); border-radius: 4px; overflow: hidden; }
+  .seg-fill { height: 100%; border-radius: 4px; }
+  .seg-num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-weight: 600; }
+
+  /* Week grid */
+  .week { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 10px; }
+  .day { background: var(--surface-1); border: 1px solid var(--border); border-radius: 9px; padding: 14px; }
+  .day-n { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; }
+  .day-t { font-size: 14px; font-weight: 650; margin-bottom: 5px; line-height: 1.3; }
+  .day-d { font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+  .day.lift { border-left: 3px solid var(--lean); }
+  .day.cardio { border-left: 3px solid var(--fat); }
+  .day.rest { border-left: 3px solid var(--axis); }
+
+  /* Timeline */
+  .tl { display: grid; gap: 0; }
+  .tl-row { display: grid; grid-template-columns: 74px 1fr; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .tl-row:last-child { border-bottom: none; }
+  .tl-t { font-size: 13.5px; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; padding-top: 1px; }
+  .tl-b { font-size: 14px; }
+  .tl-b em { display: block; font-style: normal; font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .tl-row.key .tl-b { font-weight: 650; }
+  .tl-row.key .tl-t { color: var(--lean); }
+
+  /* Rules */
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .rule { background: var(--surface-1); border: 1px solid var(--border); border-radius: 9px; padding: 16px; text-align: center; }
+  .rule-v { font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+  .rule-l { font-size: 12.5px; color: var(--text-secondary); margin-top: 4px; }
+
+  /* Table */
+  .tbl-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); font-weight: 600; }
+  td { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+  td:first-child, td:nth-child(2) { color: var(--text-primary); }
+  tr.target td { font-weight: 700; color: var(--text-primary); }
+
+  footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+  footer a { color: var(--text-secondary); }
+  .files { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 14px; }
+
+  @media (max-width: 560px) {
+    .seg-item { grid-template-columns: 72px 1fr 54px; font-size: 12.5px; }
+    .tl-row { grid-template-columns: 62px 1fr; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Horace Body Project · Baseline 2026-08-08</p>
+    <h1>Uncover the body you already built.</h1>
+    <p class="sub">You carry <strong>above-standard muscle mass</strong> under 10 kg of surplus central
+    fat. This isn't a build project — it's a reveal project, plus a posture correction.
+    Target: 72 kg at ~13% body fat by March 2027.</p>
+  </header>
+
+  <section>
+    <div class="card hero">
+      <div>
+        <div class="hero-fig">82.8<span> kg</span></div>
+        <div class="hero-lab">Today · ~24% fat</div>
+      </div>
+      <div class="hero-arrow">→</div>
+      <div>
+        <div class="hero-fig" style="color:var(--lean)">72.0<span> kg</span></div>
+        <div class="hero-lab">Target · ~13% fat</div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div class="tile-note" style="font-size:14px">
+          <b>−10.8 kg of fat.</b> Zero kg of muscle.<br>
+          30 weeks at 0.36 kg/week — <strong>including 2 business dinners a week.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Baseline vitals</h2>
+    <div class="kpi">
+      <div class="tile">
+        <div class="tile-lab">Muscle mass</div>
+        <div class="tile-val">57.8<u> kg</u></div>
+        <div class="tile-note"><b>Above standard</b> (53.4–56.9)</div>
+      </div>
+      <div class="tile">
+        <div class="tile-lab">Body fat</div>
+        <div class="tile-val">21.6<u> kg</u></div>
+        <div class="tile-note">Over by 7.2–10.8 kg</div>
+      </div>
+      <div class="tile">
+        <div class="tile-lab">Waist</div>
+        <div class="tile-val">95.1<u> cm</u></div>
+        <div class="tile-note">Ceiling 85 cm · +10.1</div>
+      </div>
+      <div class="tile">
+        <div class="tile-lab">Trunk fat share</div>
+        <div class="tile-val">51<u> %</u></div>
+        <div class="tile-note">11.05 of 21.6 kg</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The finding</h2>
+    <div class="card callout">
+      <p><strong>Your April scan says something most people don't get to hear.</strong>
+      57.8 kg of muscle at 181 cm is above the standard range — most 28-year-old desk
+      workers scan below it. Your protein (12.7 kg) sits at the top of normal.</p>
+      <p>So the plan is not to build a physique. It's to <strong>strip 10.8 kg of fat
+      while losing none of the muscle you already own</strong>, and stack your skeleton
+      back up straight.</p>
+      <p>Run the arithmetic: hold lean mass at 62.6 kg, drop to 72 kg bodyweight, and you
+      land at <strong>13.0% body fat</strong>. Bellingham is 186 cm / 75 kg — scaled to
+      your 181 cm, that's ~71 kg. <strong>Your target and his build are the same
+      number.</strong></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Body composition — now vs target</h2>
+    <div class="card">
+      <div class="comp-row">
+        <div class="comp-head"><b>Now</b> <span>82.8 kg · 24.4% fat</span></div>
+        <div class="comp-bar">
+          <div class="comp-seg seg-lean" style="width:75.6%" title="Lean mass 62.6 kg">62.6 kg lean</div>
+          <div class="comp-seg seg-fat" style="width:24.4%" title="Fat mass 20.2 kg">20.2 kg</div>
+        </div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-head"><b>Target</b> <span>72.0 kg · 13.0% fat</span></div>
+        <div class="comp-bar">
+          <div class="comp-seg seg-lean" style="width:75.6%" title="Lean mass 62.6 kg — unchanged">62.6 kg lean</div>
+          <div class="comp-seg seg-fat" style="width:11.4%" title="Fat mass 9.4 kg">9.4</div>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--lean)"></i>Lean mass — <strong>held constant</strong></span>
+        <span><i style="background:var(--fat)"></i>Fat mass — the only thing that moves</span>
+      </div>
+      <p class="chart-sub" style="margin:16px 0 0">Both bars drawn to the same scale. The blue segment
+      is identical in each — that is the entire strategy in one picture.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Trajectory</h2>
+    <div class="charts">
+
+      <div class="card">
+        <p class="chart-title">Bodyweight</p>
+        <p class="chart-sub">82.8 → 72.0 kg over 30 weeks</p>
+        <svg viewBox="0 0 470 268" role="img" aria-label="Bodyweight falling from 82.8 kg at week 0 to 72.0 kg at week 30">
+          <line class="gridline" x1="34" y1="18"    x2="454" y2="18"/>
+          <line class="gridline" x1="34" y1="78.7"  x2="454" y2="78.7"/>
+          <line class="gridline" x1="34" y1="139.3" x2="454" y2="139.3"/>
+          <line class="baseline" x1="34" y1="200"   x2="454" y2="200"/>
+          <text class="tick" x="27" y="22"    text-anchor="end">84</text>
+          <text class="tick" x="27" y="82.7"  text-anchor="end">80</text>
+          <text class="tick" x="27" y="143.3" text-anchor="end">76</text>
+          <text class="tick" x="27" y="204"   text-anchor="end">72</text>
+          <polyline fill="none" stroke="var(--lean)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+                    points="34,36.2 146,93.8 258,139.3 370,177.3 454,200"/>
+          <circle class="dot-hit" cx="34" cy="36.2" r="15"><title>Week 0 · 82.8 kg</title></circle>
+          <circle class="dot" cx="34" cy="36.2" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="146" cy="93.8" r="15"><title>Week 8 · 79.0 kg</title></circle>
+          <circle class="dot" cx="146" cy="93.8" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="258" cy="139.3" r="15"><title>Week 16 · 76.0 kg</title></circle>
+          <circle class="dot" cx="258" cy="139.3" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="370" cy="177.3" r="15"><title>Week 24 · 73.5 kg</title></circle>
+          <circle class="dot" cx="370" cy="177.3" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="454" cy="200" r="15"><title>Week 30 · 72.0 kg — TARGET</title></circle>
+          <circle class="dot" cx="454" cy="200" r="6" fill="var(--lean)"/>
+          <text class="plabel" x="34" y="27">82.8</text>
+          <text class="plabel" x="454" y="220" text-anchor="end">72.0 kg</text>
+          <text class="tick" x="34"  y="238" text-anchor="middle">W0</text>
+          <text class="tick" x="146" y="238" text-anchor="middle">W8</text>
+          <text class="tick" x="258" y="238" text-anchor="middle">W16</text>
+          <text class="tick" x="370" y="238" text-anchor="middle">W24</text>
+          <text class="tick" x="454" y="238" text-anchor="middle">W30</text>
+          <text class="tick" x="34"  y="258">Aug 2026</text>
+          <text class="tick" x="454" y="258" text-anchor="end">Mar 2027</text>
+        </svg>
+      </div>
+
+      <div class="card">
+        <p class="chart-title">Waist circumference</p>
+        <p class="chart-sub">The number that actually matters — 95 → under 82 cm</p>
+        <svg viewBox="0 0 470 268" role="img" aria-label="Waist falling from 95 cm at week 0 to 81 cm at week 30, crossing the 85 cm healthy ceiling around week 22">
+          <line class="gridline" x1="34" y1="18"    x2="454" y2="18"/>
+          <line class="gridline" x1="34" y1="84.7"  x2="454" y2="84.7"/>
+          <line class="gridline" x1="34" y1="151.3" x2="454" y2="151.3"/>
+          <line class="baseline" x1="34" y1="218"   x2="454" y2="218"/>
+          <text class="tick" x="27" y="22"    text-anchor="end">96</text>
+          <text class="tick" x="27" y="88.7"  text-anchor="end">90</text>
+          <text class="tick" x="27" y="155.3" text-anchor="end">84</text>
+          <text class="tick" x="27" y="222"   text-anchor="end">78</text>
+          <line x1="34" y1="140.2" x2="454" y2="140.2" stroke="var(--fat)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text class="tick" x="454" y="134" text-anchor="end" style="fill:var(--fat);font-weight:700">Healthy ceiling 85 cm</text>
+          <polyline fill="none" stroke="var(--lean)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+                    points="34,29.1 146,73.6 258,118 370,151.3 454,184.7"/>
+          <circle class="dot-hit" cx="34" cy="29.1" r="15"><title>Week 0 · 95 cm</title></circle>
+          <circle class="dot" cx="34" cy="29.1" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="146" cy="73.6" r="15"><title>Week 8 · 91 cm</title></circle>
+          <circle class="dot" cx="146" cy="73.6" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="258" cy="118" r="15"><title>Week 16 · 87 cm</title></circle>
+          <circle class="dot" cx="258" cy="118" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="370" cy="151.3" r="15"><title>Week 24 · 84 cm — under the ceiling</title></circle>
+          <circle class="dot" cx="370" cy="151.3" r="4.5" fill="var(--lean)"/>
+          <circle class="dot-hit" cx="454" cy="184.7" r="15"><title>Week 30 · 81 cm — TARGET</title></circle>
+          <circle class="dot" cx="454" cy="184.7" r="6" fill="var(--lean)"/>
+          <text class="plabel" x="34" y="20">95</text>
+          <text class="plabel" x="454" y="205" text-anchor="end">81 cm</text>
+          <text class="tick" x="34"  y="238" text-anchor="middle">W0</text>
+          <text class="tick" x="146" y="238" text-anchor="middle">W8</text>
+          <text class="tick" x="258" y="238" text-anchor="middle">W16</text>
+          <text class="tick" x="370" y="238" text-anchor="middle">W24</text>
+          <text class="tick" x="454" y="238" text-anchor="middle">W30</text>
+        </svg>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Where the fat actually is</h2>
+    <div class="card">
+      <div class="seg-list">
+        <div class="seg-item">
+          <span class="seg-name">Trunk</span>
+          <div class="seg-track"><div class="seg-fill" style="width:100%;background:var(--seq-hi)" title="Trunk 11.05 kg"></div></div>
+          <span class="seg-num">11.05</span>
+        </div>
+        <div class="seg-item">
+          <span class="seg-name">Right leg</span>
+          <div class="seg-track"><div class="seg-fill" style="width:35.0%;background:var(--seq-mid)" title="Right leg 3.87 kg"></div></div>
+          <span class="seg-num">3.87</span>
+        </div>
+        <div class="seg-item">
+          <span class="seg-name">Left leg</span>
+          <div class="seg-track"><div class="seg-fill" style="width:34.8%;background:var(--seq-mid)" title="Left leg 3.84 kg"></div></div>
+          <span class="seg-num">3.84</span>
+        </div>
+        <div class="seg-item">
+          <span class="seg-name">Right arm</span>
+          <div class="seg-track"><div class="seg-fill" style="width:13.0%;background:var(--seq-lo)" title="Right arm 1.44 kg"></div></div>
+          <span class="seg-num">1.44</span>
+        </div>
+        <div class="seg-item">
+          <span class="seg-name">Left arm</span>
+          <div class="seg-track"><div class="seg-fill" style="width:12.7%;background:var(--seq-lo)" title="Left arm 1.40 kg"></div></div>
+          <span class="seg-num">1.40</span>
+        </div>
+      </div>
+      <p class="chart-sub" style="margin:18px 0 0">Kilograms of fat per segment. Over half your total fat
+      sits on the trunk — textbook male central adiposity. The upside: central and visceral fat is
+      metabolically active and mobilises <em>first</em> in a deficit. <strong>Expect your waist to move
+      faster than the scale for the first 8 weeks.</strong></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Training week</h2>
+    <div class="week">
+      <div class="day lift"><div class="day-n">Mon</div><div class="day-t">Upper A — Pull</div><div class="day-d">Rows, pulldowns, face pulls. Posture priority.</div></div>
+      <div class="day lift"><div class="day-n">Tue</div><div class="day-t">Lower A — Squat</div><div class="day-d">Goblet squat, Bulgarian split, core.</div></div>
+      <div class="day cardio"><div class="day-n">Wed</div><div class="day-t">Zone 2 + Mobility</div><div class="day-d">30 min @ ~132 bpm, 15 min mobility.</div></div>
+      <div class="day lift"><div class="day-n">Thu</div><div class="day-t">Upper B — Push</div><div class="day-d">Incline press, overhead, lateral raises.</div></div>
+      <div class="day lift"><div class="day-n">Fri</div><div class="day-t">Lower B — Hinge</div><div class="day-d">RDL, hip thrust, conditioning finisher.</div></div>
+      <div class="day cardio"><div class="day-n">Sat</div><div class="day-t">Football / Play</div><div class="day-d">60–90 min. Measurements after.</div></div>
+      <div class="day rest"><div class="day-n">Sun</div><div class="day-t">Rest + Prep</div><div class="day-d">Posture routine, meal prep, weekly review.</div></div>
+    </div>
+    <p class="chart-sub" style="margin-top:14px">Pulling volume deliberately exceeds pushing volume — the
+    postural correction is built into the program, not bolted onto it.</p>
+  </section>
+
+  <section>
+    <h2>A weekday, hour by hour</h2>
+    <div class="card tl">
+      <div class="tl-row key"><div class="tl-t">06:40</div><div class="tl-b">Wake · 500 ml water<em>Water before coffee. You're 8 hours dehydrated.</em></div></div>
+      <div class="tl-row key"><div class="tl-t">06:45</div><div class="tl-b">Posture routine — 10 min<em>First thing. Anything later gets skipped when the day goes sideways.</em></div></div>
+      <div class="tl-row key"><div class="tl-t">07:10</div><div class="tl-b">Breakfast — 450 kcal, 40 g protein<em>Protein at breakfast blunts appetite all day.</em></div></div>
+      <div class="tl-row"><div class="tl-t">07:35</div><div class="tl-b">Commute — get off one stop early<em>~2,000 steps before 9am.</em></div></div>
+      <div class="tl-row"><div class="tl-t">09:00</div><div class="tl-b">Work · hourly 60-second desk reset<em>Stand, 10 chin tucks, 10 shoulder rolls, pec stretch.</em></div></div>
+      <div class="tl-row key"><div class="tl-t">12:15</div><div class="tl-b">Lunch — 650 kcal, 50 g protein<em>Protein and vegetables first. Rice second.</em></div></div>
+      <div class="tl-row"><div class="tl-t">12:45</div><div class="tl-b">Walk 20 min<em>~2,500 steps. Resets posture and afternoon focus.</em></div></div>
+      <div class="tl-row"><div class="tl-t">14:00</div><div class="tl-b">Last caffeine of the day<em>~6 hour half-life. Sleep is a training variable.</em></div></div>
+      <div class="tl-row"><div class="tl-t">17:30</div><div class="tl-b">Pre-training — whey + banana<em>Don't train empty in a deficit.</em></div></div>
+      <div class="tl-row key"><div class="tl-t">18:45</div><div class="tl-b">TRAINING — 60 min</div></div>
+      <div class="tl-row key"><div class="tl-t">20:30</div><div class="tl-b">Dinner — 700 kcal, 50 g protein<em>Carbs welcome here.</em></div></div>
+      <div class="tl-row"><div class="tl-t">21:15</div><div class="tl-b">Free time<em>Protect this. Burnout kills more plans than hunger does.</em></div></div>
+      <div class="tl-row"><div class="tl-t">22:00</div><div class="tl-b">Screens off</div></div>
+      <div class="tl-row key"><div class="tl-t">22:45</div><div class="tl-b">Lights out — 7.9 h sleep</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Daily non-negotiables</h2>
+    <div class="rules">
+      <div class="rule"><div class="rule-v">170 g</div><div class="rule-l">Protein — protects your muscle</div></div>
+      <div class="rule"><div class="rule-v">10 min</div><div class="rule-l">Posture routine — every day</div></div>
+      <div class="rule"><div class="rule-v">8,000+</div><div class="rule-l">Steps — separate from training</div></div>
+      <div class="rule"><div class="rule-v">3 L</div><div class="rule-l">Water</div></div>
+      <div class="rule"><div class="rule-v">7.5 h</div><div class="rule-l">Sleep — a training variable</div></div>
+    </div>
+    <p class="chart-sub" style="margin-top:14px">Miss a workout — fine, get the next one. Miss these five
+    repeatedly and the plan stops working regardless of what else you do.</p>
+  </section>
+
+  <section>
+    <h2>Milestones</h2>
+    <div class="card tbl-scroll">
+      <table>
+        <thead><tr><th>Date</th><th>Week</th><th>Weight</th><th>Waist</th><th>Body fat</th><th>What you'll notice</th></tr></thead>
+        <tbody>
+          <tr><td>2026-08-08</td><td>0</td><td>82.8 kg</td><td>95 cm</td><td>24.4%</td><td>Baseline</td></tr>
+          <tr><td>2026-10-03</td><td>8</td><td>79.0 kg</td><td>91 cm</td><td>~21%</td><td>Posture visibly straighter, clothes loose</td></tr>
+          <tr><td>2026-11-28</td><td>16</td><td>76.0 kg</td><td>87 cm</td><td>~18%</td><td>Jawline back, upper abs showing</td></tr>
+          <tr><td>2027-01-23</td><td>24</td><td>73.5 kg</td><td>84 cm</td><td>~15%</td><td>Full abs, shoulder-to-waist V clear</td></tr>
+          <tr class="target"><td>2027-03-06</td><td>30</td><td>72.0 kg</td><td>81 cm</td><td>~13%</td><td>Target physique</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <div class="files">
+      <a href="01-assessment.md">01 · Assessment</a>
+      <a href="02-nutrition.md">02 · Nutrition</a>
+      <a href="03-training-program.md">03 · Training</a>
+      <a href="04-posture-protocol.md">04 · Posture</a>
+      <a href="05-daily-schedule.md">05 · Schedule</a>
+      <a href="06-progress-tracker.md">06 · Tracker</a>
+    </div>
+    <p>Baseline from ioi 353 body composition scan, 2026-04-11, plus postural observation from
+    photographs, 2026-08-07. Bioimpedance carries ±3–5% error on body fat — trust trends across
+    repeat scans on the same machine, not single absolute values. The postural read is a visual
+    pattern, not a clinical diagnosis: see a physiotherapist if you have pain, numbness, or
+    tingling. Not medical advice — get a baseline blood panel before starting.</p>
+  </footer>
+
+</div>
+</body>
+</html>
