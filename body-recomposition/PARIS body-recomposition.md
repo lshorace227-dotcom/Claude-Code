@@ -2,7 +2,7 @@
 
 **Fat loss + muscle gain · "slim muscle" physique**
 
-**Created:** 2026-08-07 · **Updated:** 2026-08-08 (baseline photos added)
+**Created:** 2026-08-07 · **Updated:** 2026-08-08 (morning-fasted photo set + carb protocol)
 **Profile:** Female, 28 y/o, 154 cm, 46.7 kg, moderately-high body fat %
 **Goal:** Lose body fat, gain muscle — the slim, defined look, **not** a heavily-built physique
 **Equipment:** Dumbbells, yoga mat, home space
@@ -59,10 +59,24 @@ muscle underneath plus a modest overall fat reduction.
 ---
 
 <a name="2-baseline-photo-assessment"></a>
-## 2. Baseline photo assessment (2026-08-08)
+## 2. Baseline photo assessment
 
-*Read from 5 photos — front, side ×2, back, back-flexed. Warm overhead lighting, evening,
-post-meal. Treat as directional, not measurement.*
+*Two sets read: **Set 1** — evening, post-meal, warm overhead lighting. **Set 2** — morning,
+fasted, after the bathroom, before water, natural daylight. Directional, not measurement.*
+
+### The single most useful finding: Set 1 vs Set 2
+
+Same body, days apart — no meaningful composition change is possible in that window. Yet the
+lower belly, the primary concern, is **substantially reduced** in the morning set. The
+abdomen in the fasted side profile is close to flat.
+
+**That difference is not fat.** It is the four non-fat contributors listed below: post-meal
+distension, a high-fibre veggie load, digestive volume, and cycle timing. This is now
+personally documented rather than theoretical.
+
+> **Implication beyond tracking:** assessing yourself in the evening, in a mirror, under
+> overhead light means forming your body image from the **worst-case view of yourself.** A
+> real and common distortion — and your own photos disprove it.
 
 ### Headline
 
@@ -70,28 +84,29 @@ post-meal. Treat as directional, not measurement.*
 visible, frame is small. What reads as "fat" is mostly **absence of muscle underneath**, plus
 a posture issue exaggerating one area.
 
-Rough visual body fat estimate: **mid-to-high 20s%, ±4%.** Consistent with normal-ish fat and
-genuinely low lean mass.
+Visual body fat estimate: **low-to-mid 20s%, ±4%** — *revised down from mid-to-high 20s after
+Set 2.* In natural light while fasted there is visible abdominal structure, a clear waist
+taper, and scapular definition.
 
 ### Region by region
 
 | Region | Observation | Priority |
 |---|---|---|
-| **Shoulders** | Narrow, sloping, almost no lateral deltoid cap. Biggest single opportunity — deltoid width creates waist contrast. | ⭐⭐⭐ |
-| **Upper back** | Relatively flat. Limited lat / mid-trap development → no taper from shoulder to waist. | ⭐⭐⭐ |
-| **Glutes** | Flat-ish in side and back views, limited shelf. Major factor in side profile. Fully trainable. | ⭐⭐⭐ |
-| **Lower abdomen** | The one area with real softness. See breakdown below. | ⭐⭐ |
-| **Arms** | Flexed shot shows real shape — bicep and upper-back separation. **A baseline exists.** Untrained, not starting from zero. | ⭐⭐ |
+| **Shoulders** | Narrow, sloping, almost no lateral deltoid cap. Biggest single opportunity — deltoid width creates waist contrast. **Unchanged across both sets.** | ⭐⭐⭐ |
+| **Upper back** | Limited lat / mid-trap development → little taper from shoulder to waist. Some scapular definition visible fasted. | ⭐⭐⭐ |
+| **Glutes** | *Revised up after Set 2.* Real shape and a visible glute–hamstring tie-in — Set 1's downward lighting and stance made them look flatter than they are. Still the main lower-body opportunity, but **not flat.** | ⭐⭐ |
+| **Lower abdomen** | Real softness in the evening; close to flat fasted. Mostly timing, not fat. See breakdown below. | ⭐⭐ |
+| **Arms / baseline** | *Revised up after Set 2.* Visible ab outline while fasted and defined shoulder blades mean more muscle underneath than Set 1 suggested. **Untrained, not depleted.** | ⭐⭐ |
 | **Legs** | Slim. Some softness front/inner thigh, no excess size. **Do not train legs to make them smaller — there is nothing to remove.** | — |
 
-### The finding that matters most: posture
+### The finding that matters most: posture — CONFIRMED
 
-Both side photos show the same pattern:
+Both sets show the same pattern, and Set 2's natural light makes it unambiguous:
 
-- **Forward head** — chin sits well ahead of the shoulder line
+- **Forward head** — chin sits well ahead of the shoulder line; *more* visible fasted
 - **Rounded upper back** — thoracic flexion, shoulders drifting forward
-- **Likely anterior pelvic tilt** — pelvis rotated forward, pushing the lower abdomen out and
-  exaggerating the lower-back curve
+- **Anterior pelvic tilt** — pronounced lumbar curve. The residual lower-belly protrusion in
+  the fasted side profile comes from **pelvic position, not fat**
 
 **This is a large part of why the stomach looks the way it does.** Anterior tilt physically
 protrudes the lower belly; rounded shoulders compress the torso visually. Correcting posture
@@ -110,14 +125,28 @@ More crunches address none of the top four.
 
 ### What this changed in the plan
 
-Three adjustments, all folded into §4 below:
+Three training adjustments, all folded into §4 below:
 
-1. **Added a 5-minute posture block**, 4×/week
+1. **Added a 5-minute posture block**, 4×/week — highest-return item in the plan, and the one
+   thing here that changes fast
 2. **Promoted the hip thrust to first exercise on Tuesday**, 4 sets
 3. **Flagged lateral raises + reverse flies as non-skippable**
 
-Nothing here suggests eating less. It reinforces that maintenance is correct — there is
-maybe **1.5–2.5 kg** of fat to lose in absolute terms, and a great deal of muscle to build.
+And one strategic change from Set 2:
+
+4. **The case for ever cutting got weaker.** At low-to-mid 20s% and 46.7 kg there is maybe
+   **1–1.5 kg** of fat worth losing — down from the 1.5–2.5 kg estimated off Set 1. That is
+   almost nothing. Stripping it would cost muscle you don't have to spare and lead straight
+   back to the 44 kg loop. See §9 — **Option B is now actively discouraged.**
+
+Nothing in either set suggests eating less.
+
+### Honest caveat on morning-fasted photos
+
+Morning-fasted is the **flattering end** of your daily range, exactly as evening-post-meal is
+the unflattering end. Real appearance sits between them. Use morning-fasted for tracking
+because it is the most **reproducible** condition — not because it looks best. The point is
+comparing like to like over months.
 
 ---
 
@@ -134,7 +163,7 @@ With 2 Pilates + 3 lifting sessions + daily walking (activity factor ≈ 1.4–1
 | Phase | Duration | Intake | Purpose |
 |---|---|---|---|
 | **Phase 1 — Recover & build** | Months 1–4 | **1,650–1,700 kcal** (maintenance) | Rebuild muscle, restore metabolism after long restriction |
-| **Phase 2 — Optional mild cut** | Months 5–7, only if needed | **1,450–1,500 kcal** | Small deficit while *keeping* the new muscle |
+| **Phase 2 — Optional mild cut** | Months 5–7, **rarely needed** | **1,450–1,500 kcal** | Small deficit while *keeping* the new muscle. **Discouraged after the Set 2 photos** — see §9. |
 | **Back to maintenance** | after any cut | 1,650–1,750 | Never diet continuously |
 
 **Do not go below ~1,400 kcal.** You have already spent a long stretch under-eating; going
@@ -155,6 +184,81 @@ someone (a) new to resistance training and (b) coming off under-eating. Both tru
 **Carbs go from under 50 g back up to ~180 g.** Intentional. Carbs are what let you push hard
 in a lifting session, and glycogen is what makes muscle look full rather than flat. Some
 early scale increase will be glycogen and water. That is not fat.
+
+### Carbohydrate protocol — daily and per meal
+
+**Target ~180 g/day**, varied by training load. The weekly average is what matters, not any
+single day.
+
+| Day | Sessions | Carbs |
+|---|---|---|
+| **Tue / Thu / Sun** | Dumbbell lifting | **190–200 g** |
+| **Mon / Sat** | Pilates | **175–185 g** |
+| **Wed / Fri** | Rest / walking | **150–160 g** |
+
+This also auto-manages calories — more food on hard days, less on easy ones, with no extra
+tracking.
+
+#### The mental model: 6 carb units
+
+Stop counting grams. **One unit ≈ 30 g carbs:**
+
+| Food | One unit |
+|---|---|
+| 自製無糖饅頭 | 1 medium (~60 g) |
+| 米飯 (cooked) | 100 g — a small rice bowl |
+| 酸種法棍 | 55 g — about two finger-widths |
+| 純燕麥 (dry) | 45 g |
+| Kodiak 鬆餅 | 1 serving |
+| Banana | 1 medium |
+| Apple | 1 large |
+
+**Lifting days = 6 units. Pilates days = 6. Rest days = 5.** That is the whole system.
+
+#### Per-meal breakdown
+
+**Lifting day (~195 g):**
+
+| Meal | Carbs | What that looks like |
+|---|---|---|
+| Breakfast | **45 g** | 1 饅頭 (70 g) + veggies + a little milk |
+| **Pre-workout** (60–90 min before) | **30 g** | 1 Kodiak 鬆餅 **or** 40 g 純燕麥 |
+| Lunch | **50 g** | 150 g 米飯 + big veggie plate |
+| Snack | **20 g** | Greek yogurt + 100 g fruit |
+| Dinner | **45 g** | 65 g 酸種法棍 + veggies |
+
+**Rest day (~155 g):** drop the pre-workout serving. Everything else identical.
+
+**Per-meal ceiling ~60 g.** Not for fat-loss reasons — larger single loads are simply where
+bloating and energy dips come from.
+
+#### Ramp up — do not jump straight to 180 g
+
+Coming from under 50 g, an overnight jump causes real GI discomfort and 1–2 kg of water gain
+in a week, which reads as failure and ends the plan. Phase it:
+
+| Week | Carbs | Units |
+|---|---|---|
+| 1 | ~100 g | 3–4 |
+| 2 | ~140 g | 4–5 |
+| 3 | ~170 g | 5–6 |
+| **4 onward** | **~180 g** | **6** |
+
+**Protein stays at 100 g throughout** — it does not ramp. Calories rise as carbs rise. That is
+intended, not a mistake.
+
+#### Five rules
+
+1. **Anchor the biggest servings around training.** The pre-workout unit is the highest-value
+   carb of the day — it is what lets you add weight to the dumbbells.
+2. **Never train fasted**, and never let breakfast be zero-carb if lifting later.
+3. **Vegetables are effectively free.** A large plate is 5–10 g. Not part of the 6 units.
+4. **Fruit counts and is fine.** 1–2 servings/day. No reason to avoid it.
+5. **Expect 1–2 kg on the scale in the first fortnight.** Each gram of glycogen holds ~3 g of
+   water. That is the "full" look you have been missing, not fat returning.
+
+The number will feel enormous compared to the old intake. It is normal for an active woman of
+this size — the previous protocol ran at roughly a quarter of it.
 
 ### Protein distribution
 
@@ -619,8 +723,8 @@ time, not fall.
 | Option | When | Protocol |
 |---|---|---|
 | **A. Keep recomping** ⭐ *most likely correct* | Waist down, strength up, looking better | Change nothing. Novice recomposition often runs a full year. |
-| **B. Short cut** | Visible muscle built, still want less fat | 1,450–1,500 kcal for **8–12 weeks max.** Protein stays 100 g, lifting stays identical — do not reduce weights, do not add cardio. Then back to maintenance. |
-| **C. Small surplus** | Frustrated by slow muscle gain | 1,800–1,850 kcal for 12–16 weeks. Builds muscle fastest; arguably the most honest answer to "I look soft" — but the scale climbs and most people can't tolerate it psychologically. |
+| **C. Small surplus** ⭐ *now the strong second choice* | Frustrated by slow muscle gain | 1,800–1,850 kcal for 12–16 weeks. Builds muscle fastest; the most honest answer to "I look soft" — but the scale climbs and most people can't tolerate it psychologically. |
+| **B. Short cut** ⚠️ *actively discouraged* | — | 1,450–1,500 kcal for 8–12 weeks max, protein at 100 g, lifting identical. **Only if a great deal changes.** At low-to-mid 20s% body fat there is ~1–1.5 kg of fat worth losing; a cut would cost muscle you cannot spare and lead back to the 44 kg loop. |
 
 **The rule that matters most: don't cut until you have something worth revealing.** A cut
 *reveals* muscle, it doesn't create it. Cutting at month 3 puts you back at 44 kg and soft —
@@ -670,11 +774,13 @@ professional rather than cut further.
 
 1. **Eat more, not less** — 1,650–1,700 kcal at maintenance for at least 4 months.
 2. **100 g protein daily**, spread over 3–4 meals. Biggest single lever.
-3. **Carbs back to ~180 g.** The existing carb sources are already good.
+3. **Carbs back to ~180 g = 6 units/day**, ramped over 4 weeks. Existing carb sources are good.
 4. **3 dumbbell sessions/week** with progressive overload. Keep both Pilates classes.
 5. **HIIT down to 0–1×/week**, never fasted. Walk 7–9k steps instead.
 6. **5-minute posture block 4×/week** — fastest visible win, addresses the lower belly.
 7. **Hip thrusts first on Tuesday. Never skip lateral raises or reverse flies.**
 8. **Track tape, photos, and strength — not the scale.** Expect the scale to rise.
-9. **You will not get bulky.** Physically cannot happen at this rate, at maintenance.
-10. **Give it 6 months.** Consider creatine. Get bloodwork if any health flags apply.
+9. **Photograph morning-fasted only.** Evening distension is most of what looked like belly fat.
+10. **You will not get bulky.** Physically cannot happen at this rate, at maintenance.
+11. **Do not cut.** There is ~1–1.5 kg of fat worth losing. Build instead.
+12. **Give it 6 months.** Consider creatine. Get bloodwork if any health flags apply.
